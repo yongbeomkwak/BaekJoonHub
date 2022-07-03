@@ -23,7 +23,10 @@
 >> arr[1:6:2] # index 1 부터 index 6 까지 두 칸 간격으로
 [1,3,5]
 
-
-출처: https://blog.wonkyunglee.io/3 [Wonkyung's blog:티스토리]
 ~~~
+4. 2차원 배열 초기화
+~~~python
 
+array = [[0]*col for i in range(row)]
+
+~~~
