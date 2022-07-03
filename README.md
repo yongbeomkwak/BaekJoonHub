@@ -29,4 +29,6 @@
 
 array = [[0]*col for i in range(row)]
 
+gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)] 
+
 ~~~
