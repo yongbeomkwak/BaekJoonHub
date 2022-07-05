@@ -36,6 +36,8 @@ gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)]
 5. deque와 print(*a)
 ~~~python
 
+백준 Sliver 2641 참고
+
 deque는 roate라는 함수가 있는데 dq.rotate(n)
 
 n이 양수면 n만큼 오른쪽 회전
