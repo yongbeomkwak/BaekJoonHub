@@ -32,3 +32,28 @@ array = [[0]*col for i in range(row)]
 gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)] 
 
 ~~~
+
+5. deque와 print(*a)
+~~~
+python
+
+deque는 roate라는 함수가 있는데 dq.rotate(n)
+
+n이 양수면 n만큼 오른쪽 회전
+n이 음수면 n만큼 왼쪽으로 회전 
+
+answer =[[1,2,3,4],[5,6,7,8]]
+    
+    for ans in answer:
+        print(*ans)
+    
+    결과
+    1 2 3 4
+    5 6 7 8
+     
+
+        
+     
+
+
+~~~
