@@ -34,8 +34,7 @@ gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)]
 ~~~
 
 5. deque와 print(*a)
-~~~
-python
+~~~python
 
 deque는 roate라는 함수가 있는데 dq.rotate(n)
 
