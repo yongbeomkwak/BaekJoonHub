@@ -10,8 +10,8 @@ if __name__ =='__main__':
         li[i]=tmp
     
  
-    s=list(set(li)) # 중복제거 
-    s.sort(key=lambda ss:(len(ss),ss)) # 글자수작은것 , 문자열 오름차순(사전수)
+    s=list(set(li))
+    s.sort(key=lambda ss:(len(ss),ss))
 
     
     for ss in s:
