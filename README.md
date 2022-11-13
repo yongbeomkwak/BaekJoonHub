@@ -52,9 +52,34 @@ answer =[[1,2,3,4],[5,6,7,8]]
     1 2 3 4
     5 6 7 8
      
+~~~
 
-        
-     
+6. divmod(n,d)
+~~~python
+몫과 나머지를 한번에 튜플 형태로 리턴
+
+몫,나머지 = divmod(n,d)
+
+~~~
+
+7. from itertools import *
+~~~python
+순열과 조합
+
+a = [1,2,3]
+permute = permutations(a,2)
+print(list(permute))
+
+결과
+[(1,2),(1,3),(2,1),(2,3),(3,1),(3,2)]
+
+a = [1,2,3]
+combi = combinations(a,2)
+    
+print(list(combi))
+결과
+[(1,2),(1,3),(2,3)]
 
 
 ~~~
+
