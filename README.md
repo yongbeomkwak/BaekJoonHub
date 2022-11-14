@@ -83,3 +83,16 @@ print(list(combi))
 
 ~~~
 
+~~~
+8. from collections import Counter
+
+리스트를 인자 값으로 받아 갯수를 dictionary 형태로 리턴
+
+a = 	["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]
+
+print(a)
+
+{"banana":10}
+
+~~~
+
