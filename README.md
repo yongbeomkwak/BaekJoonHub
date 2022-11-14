@@ -88,7 +88,7 @@ print(list(combi))
 
 리스트를 인자 값으로 받아 갯수를 dictionary 형태로 리턴
 
-a = 	["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]
+a = ["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]
 
 print(a)
 
