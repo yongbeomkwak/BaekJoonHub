@@ -1,14 +1,13 @@
-from itertools import *
-
 def solution(elements):
-
     answer = 0
-    s = set()
     l = len(elements)
-    elements = elements * 2
+    elements *= 2
+    ss = set()
+
     
-    for ll in range(1,l+1):
-        for begin in range(0,l):
-            s.add(sum(elements[begin:begin+ll]))
+    for i in range(1,l+1):
+        for s in range(l):
+            ss.add(sum(elements[s:s+i]))
     
-    return len(s)
+    
+    return len(ss)
