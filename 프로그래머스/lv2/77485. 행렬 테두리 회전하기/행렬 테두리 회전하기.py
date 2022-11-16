@@ -1,8 +1,8 @@
 def solution(rows, cols, queries):
     
-   # matrix = [[ (i*rows)+j for j in range(1,cols+1)] for i in range(rows)]
+    matrix = [[ (i*cols)+j for j in range(1,cols+1)] for i in range(rows)]
     
-    matrix = [[0 for i in range(cols)] for j in range(rows)]
+    # matrix = [[0 for i in range(cols)] for j in range(rows)]
     num = 1
     for row in range(rows):
         for column in range(cols):
