@@ -2,12 +2,7 @@ def solution(rows, cols, queries):
     
     matrix = [[ (i*cols)+j for j in range(1,cols+1)] for i in range(rows)]
     
-    # matrix = [[0 for i in range(cols)] for j in range(rows)]
-    num = 1
-    for row in range(rows):
-        for column in range(cols):
-            matrix[row][column] = num
-            num += 1
+
     result = []
     for x1,y1,x2,y2 in queries:
         x1 -= 1
