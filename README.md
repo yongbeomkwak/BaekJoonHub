@@ -27,7 +27,7 @@
 4. 2차원 배열 초기화
 ~~~python
 
-array = [[0]*col for i in range(row)]
+arr = [[0 for j in range(cols)] for i in range(rows)]
 
 gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)] 
 
