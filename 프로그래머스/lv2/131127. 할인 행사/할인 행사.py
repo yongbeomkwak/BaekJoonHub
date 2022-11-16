@@ -1,24 +1,20 @@
 from collections import *
 def solution(want, number, discount):
     answer = 0
-    check = {}
-    for w, n in zip(want, number):
-        check[w] = n
+    l = len(discount)
+    zipped = []
+    for w,n in zip(want,number): 
+        zipped += ([w] * n)
     
-    for i in range(len(discount)-9):
-        c = Counter(discount[i:i+10])
-        if c == check:
+    check = Counter(zipped)
+
+
+    for begin in range(l-9):
+        items = discount[begin:begin+10]
+        citems = Counter(items)
+        
+        if(citems == check):
             answer += 1
-
-    return answer
-    
-        
-        
-    
-
-        
-    
-    
-    
+            
     
     return answer
