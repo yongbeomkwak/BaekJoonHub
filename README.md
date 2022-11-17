@@ -24,17 +24,18 @@
 [1,3,5]
 
 ~~~
-4. 2차원 배열 초기화
 ~~~python
+4. 2차원 배열 초기화
+
 
 arr = [[0 for j in range(cols)] for i in range(rows)]
 
 gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)] 
 
 ~~~
-
-5. deque와 print(*a)
 ~~~python
+5. deque와 print(*a)
+
 
 백준 Sliver 2641 참고
 
@@ -53,17 +54,17 @@ answer =[[1,2,3,4],[5,6,7,8]]
     5 6 7 8
      
 ~~~
-
-6. divmod(n,d)
 ~~~python
+6. divmod(n,d)
+
 몫과 나머지를 한번에 튜플 형태로 리턴
 
 몫,나머지 = divmod(n,d)
 
 ~~~
-
-7. from itertools import *
 ~~~python
+7. from itertools import *
+
 순열과 조합
 
 a = [1,2,3]
@@ -109,7 +110,18 @@ k = reduce(lambda x, y: x*(y+1), l, 1) - 1 , -> 초기값 1 * (l의 모든 원�
 
 print(2*3*4*5*6-1)   
 print(k)
+~~~
+~~~python
+10. any와 all 함수와 for 문을 통한 조건 검증
+
+형식: any or all ( 조건 i  for i in list)
+
+a = 10
+l = [1,2,4,11,5]
+
+
+print(any( a > i for i in l)) # 10보다 하나라도 큰게 있으므로 True
+print(all( a > i for i in l)) # 모두 10보다 큰게 아니므로 False
 
 
 ~~~
-
