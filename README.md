@@ -96,3 +96,20 @@ print(a)
 
 ~~~
 
+~~~python
+9.  from functools import *
+
+고차함수를 쓸 수 있도록 도와주는 모듈
+
+ex) reduce(lambd 식 ,반복 객체, 초기값)
+
+l = [1,2,3,4,5]
+
+k = reduce(lambda x, y: x*(y+1), l, 1) - 1 , -> 초기값 1 * (l의 모든 원소를 +1하여 누적곱을 진행 후 -1
+
+print(2*3*4*5*6-1)   
+print(k)
+
+
+~~~
+
