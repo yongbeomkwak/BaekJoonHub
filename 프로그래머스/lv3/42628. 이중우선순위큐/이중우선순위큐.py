@@ -22,7 +22,6 @@ def solution(operations):
                 else:
                     heappop(h1)
                
-            
             elif(l == 0):
                 while h1:
                     heappop(h1)
