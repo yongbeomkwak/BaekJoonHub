@@ -65,7 +65,7 @@ answer =[[1,2,3,4],[5,6,7,8]]
 ~~~python
 7. from itertools import *
 
-순열과 조합
+a. 순열과 조합
 
 a = [1,2,3]
 permute = permutations(a,2)
@@ -80,6 +80,19 @@ combi = combinations(a,2)
 print(list(combi))
 결과
 [(1,2),(1,3),(2,3)]
+
+
+b. cycle: 무한순환 
+next 함수를 이용해 한칸 이동
+
+a = [1,2,3]
+
+ca = cycle(a)
+for _ in range(10):
+    print(next(ca))
+# 결과 
+# 123 123 123 1 ,여백은 구분하기 위해 넣어논 것 
+
 
 
 ~~~
