@@ -94,6 +94,26 @@ for _ in range(10):
 # 123 123 123 1 ,여백은 구분하기 위해 넣어논 것 
 
 
+c. product: 데카르트 곱
+
+product(iterator1, iterator2, .. , [repeat=1])
+
+A X B의 모든 경우의 수를 보여준다.
+
+A = [1,2,3]
+B = [4,5,6]
+
+print(list(product(A,repeat = 2)))
+A X A 
+[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
+print(list(product(A,B)))
+A X B
+[(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
+print(list(product(A,B,repeat = 2)))
+(A X B) X (A X B)
+[(1, 4, 1, 4), (1, 4, 1, 5), (1, 4, 1, 6), ...)]
+
+
 
 ~~~
 
