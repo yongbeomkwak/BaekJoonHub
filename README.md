@@ -118,15 +118,27 @@ print(list(product(A,B,repeat = 2)))
 ~~~
 
 ~~~python
-8. from collections import Counter
+8. from collections import *
 
-리스트를 인자 값으로 받아 갯수를 dictionary 형태로 리턴
+a. Counter 리스트를 인자 값으로 받아 갯수를 dictionary 형태로 리턴
 
 a = ["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]
 
-print(a)
+print(Counter(a))
 
 {"banana":10}
+
+b.defaultdict  기본 타입을 지정한 딕셔너리, 지정하는 타입마다 default 타입이 달라짐
+
+ex1 = defaultdict(int) # int로  지정시 default 값은 0
+
+print(ex1[0]) 
+0
+
+ex2 = defaultdict(list) # list로 지정시 default 값은 비어있는 리스트 []
+print(ex2[0])
+[]
+
 
 ~~~
 
