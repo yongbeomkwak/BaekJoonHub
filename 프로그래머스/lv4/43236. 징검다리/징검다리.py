@@ -23,12 +23,12 @@ def solution(distance, rocks, n):
             cnt +=1
         
 
-        if(cnt<=n):
+        if(cnt<=n): #만약 현재 제거 개수가 만족하면
             answer = max(answer,mid)
             left = mid+1
-        
-        else:
-            right = mid -1
+            # 거리의 최댓값을 찾기 위해 left를 옮긴다
+        else: #만약 개수초과면
+            right = mid -1 #right을 이동시켜 거리를 좁힌다
         
         
         
