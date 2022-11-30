@@ -122,11 +122,32 @@ print(list(product(A,B,repeat = 2)))
 
 a. Counter 리스트를 인자 값으로 받아 갯수를 dictionary 형태로 리턴
 
-a = ["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]
+a = ["banana", "banana", "banana", "banana", "banana", "banana", "banana","apple","apple","apple","grape","grape","grape" ]
 
-print(Counter(a))
+counterA= Counter(a)
+print(counterA)
 
-{"banana":10}
+# Counter({'banana': 7, 'apple': 3, 'grape': 3})
+
+aKey = list(counterA)
+print(aKey)
+# 키 추출
+# ['banana', 'apple', 'grape']
+
+aValue = list(counterA.values())
+print(aValue)
+# 모든 value 추출
+# [7, 3, 3]
+
+commons = counterA.most_common(2)
+
+print(commons)
+# most_common(n) ->  value값을 기준으로 내림차순으로 n개 만큼 가져옴
+# n을 생략 시 전부 추출
+# [('banana', 7), ('apple', 3)]
+
+
+
 
 b.defaultdict  기본 타입을 지정한 딕셔너리, 지정하는 타입마다 default 타입이 달라짐
 
