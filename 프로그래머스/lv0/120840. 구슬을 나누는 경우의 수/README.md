@@ -1,10 +1,10 @@
 # [level 0] 구슬을 나누는 경우의 수 - 120840 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120840?language=javascript) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120840?language=swift) 
 
 ### 성능 요약
 
-메모리: 33.5 MB, 시간: 0.06 ms
+메모리: 16 MB, 시간: 0.02 ms
 
 ### 구분
 
