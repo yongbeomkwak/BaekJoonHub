@@ -9,26 +9,23 @@ l = len(output)
 result = "어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.\n"
 
 def rec(_n:int,i:int):
-    global output
     global result
     
-    if n == _n:
+    if n == _n: # 교수님 답변 차례
         for ans in answer:
             result += ("____" * _n) + ans +"\n"
         return
     
     
     result += ("____" * (_n) + output[i] + "\n")
-    if i == l - 2:
+    if i == l - 2: #물었어 까지
         rec(_n+1,0)
-        result += ("____" * (_n) + output[l-1] + "\n")
+        result += ("____" * (_n) + output[l-1] + "\n") #라고 답변하였지
         
         
     else:
         rec(_n,i+1)
     
-   
-
 
 rec(0,0)    
 
