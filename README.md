@@ -30,7 +30,8 @@
 
 arr = [[0 for j in range(cols)] for i in range(rows)]
 
-gmap = [list(map(int, stdin.readline()[:-1])) for _ in range(n)] 
+for _ in range(n):
+    board.append(list(map(int,stdin.readline()[:-1].split())))
 
 ~~~
 ~~~python
