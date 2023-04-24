@@ -1,7 +1,7 @@
-
-
 from sys import *
 
+limit_number = 15000
+setrecursionlimit(limit_number)
 
 n = int(input())
 
