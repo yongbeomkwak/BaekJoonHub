@@ -1,5 +1,8 @@
 from sys import *
 
+limit_number = 15000
+setrecursionlimit(limit_number)
+
 s = list(stdin.readline()[:-1])
 visit = [False for _  in range(len(s))] # 방문 체크
 
