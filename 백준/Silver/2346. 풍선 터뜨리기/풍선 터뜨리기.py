@@ -32,9 +32,3 @@ for _ in range(n):
 
 print(*ans)
     
-
-    
-
-
-
-    
