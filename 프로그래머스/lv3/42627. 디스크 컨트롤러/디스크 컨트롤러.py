@@ -1,4 +1,4 @@
-class Job(object):
+class Job():
     def __init__(self, begin=0, cost=0):
         self.begin = begin
         self.cost = cost
@@ -38,7 +38,7 @@ def solution(jobs):
            time = tmp[task].begin # 다음 작업의 시간으로 바로 이동
        
 
-    
+
     
     
     return answer//l
