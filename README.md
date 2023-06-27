@@ -291,7 +291,7 @@ a.extend([4,5,6]
 
 ~~~python
 
-문자열관련 판별 함수 
+14. 문자열관련 판별 함수 
 
 1. isdecimal()
 2. isdigit()
