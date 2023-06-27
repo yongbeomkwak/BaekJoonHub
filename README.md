@@ -288,3 +288,36 @@ a.extend([4,5,6]
 # [4, 4, 5, 6]
 
 ~~~
+
+~~~python
+
+문자열관련 판별 함수 
+
+1. isdecimal()
+2. isdigit()
+3. isnumeric()
+4. isalpha()
+
+a = '12345678'
+print(a.isdigit()) True
+print(a.isdecimal()) True
+print(a.isnumeric()) True
+
+
+a = '3²'
+print(a.isdigit()) True
+print(a.isdecimal()) False
+print(a.isnumeric()) True
+
+이것은 함수 차이인데 isdigit() 함수는 단일 글자가 '숫자' 모양으로 생겼으면 무조건 True를 반환하는 함수. 즉, 숫자처럼 생긴 '모든 글자'를 숫자로 친다.
+
+그에 비해 isdecimal() 함수는 주어진 문자열이 int형으로 변환이 가능한지 알아내는 함수이기 때문에 특수문자 중 숫자모양을 숫자로 치지않는다.
+
+isnumeric() 함수는 숫자값 표현에 해당하는 문자열까지 인정한다. 제곱근, 분수, 거듭제곱 형태의 특수문자 → True
+
+
+
+
+
+
+~~~
