@@ -315,9 +315,23 @@ print(a.isnumeric()) True
 
 isnumeric() 함수는 숫자값 표현에 해당하는 문자열까지 인정한다. 제곱근, 분수, 거듭제곱 형태의 특수문자 → True
 
+~~~
+
+~~~python
+15. enumerate
+
+arr = [2,2,4,6,5]
 
 
+for i,n in enumerate(arr,-3): # (반복객체,시작인덱스)
+    print(i,n)
 
+-3 2
+-2 2
+-1 4
+ 0 6
+ 1 5
 
 
 ~~~
+
