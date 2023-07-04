@@ -23,23 +23,26 @@ for _ in range(m):
     graph[u].append(v)
     graph[v].append(u)
     
-q = deque()
+stk = []
 ans = 0 
 
 if graph[1]:
-    visit[1] = True
-    q.append(1)
-
-
-while q:
-    curr = q.popleft()
+    stk.append(1)
     
+    while stk:
     
-    for nex in graph[curr]:
-        
-        if not visit[nex]:
+        curr = stk.pop()
+     
+      
+        if not visit[curr]:
+            visit[curr] = True
             ans += 1
-            visit[nex] = True
-            q.appendleft(nex)
+            
+            for nex in graph[curr]:
+                stk.append(nex)
+    
+    print(ans -1) # 1 노드 빼기
 
-print(ans)   
+else:
+    print(0)
+
