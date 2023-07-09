@@ -79,9 +79,9 @@ heap = []
 
 for _ in range(e):
     a,b,cost = map(int,input().split())
-    heap.append((cost,a,b))
+    heappush(heap,Edge(a,b,cost))
 
-heap.sort()
+
 
 ans = 0
 
@@ -89,14 +89,17 @@ while heap:
     
     edge = heappop(heap)
     
-    if find(edge[1]) != find(edge[2]):
-        union(edge[1],edge[2])
-        ans += edge[0]
+    a = edge.a
+    b = edge.b
+    c = edge.cost
+    
+    if find(a) != find(b):
+        union(a,b)
+        ans += c
         
         
         
     
 print(ans)
-
 
 
