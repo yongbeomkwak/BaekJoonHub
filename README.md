@@ -335,3 +335,31 @@ for i,n in enumerate(arr,-3): # (반복객체,시작인덱스)
 
 ~~~
 
+~~~python
+16. class 및 비교 메소드
+
+class Edge:
+
+    
+    def __init__(self,a,b,cost):
+        self.a = a
+        self.b = b
+        self.cost = cost
+        
+
+    def __lt__(self, other): # x < y 를 판단하는 기준을 정의 (less than → lt)
+        return self.cost < other.cost
+    def __le__(self, other): # x ≤ y 를 판단하는 기준을 정의 (less than or equal to → le)
+         return self.cost <= other.cost
+    def __gt__(self, other): # x > y 를 판단하는 기준을 정의 (greater than → gt)
+         return len(self) > len(other)
+    def __ge__(self, other): # x ≥ y 를 판단하는 기준을 정의 (greater than or equal to → ge)
+         return len(self) >= len(other)
+    def __eq__(self, other): #  x == y 를 판단하는 기준을 정의 (equal to → eq)
+         return len(self) == len(other)
+    def __ne__(self, other):  x == y 를 판단하는 기준을 정의 (equal to → eq)
+         return len(self) != len(other)
+~~~
+
+
+
