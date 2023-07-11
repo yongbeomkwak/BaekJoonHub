@@ -40,15 +40,15 @@ while heap:
     left = currPos - 1
     warp = 2 * currPos
     
-    if warp < INF and dist[warp] > currDist +1:
-        dist[warp] = currDist
+    if warp < INF and dist[warp] > currDist: # 워프는 증가 아님
+        dist[warp] = currDist 
         heappush(heap,(dist[warp],warp))
     
-    if left >=0 and dist[left] > currDist + 1:
+    if left >=0 and dist[left] > currDist + 1: # 왼쪽은 1 증가
         dist[left] = currDist + 1
         heappush(heap,(dist[left],left))
     
-    if right < INF and dist[right] > currDist +1:
+    if right < INF and dist[right] > currDist +1: # 오른쪽도 1 증가
         dist[right] = currDist + 1
         heappush(heap,(dist[right],right))
     
