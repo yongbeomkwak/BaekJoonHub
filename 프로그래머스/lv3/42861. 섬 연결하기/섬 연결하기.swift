@@ -61,8 +61,6 @@ func union(_ a:Int,_ b:Int)  {
 
 func solution(_ n:Int, _ costs:[[Int]]) -> Int {
     
-    var visited:[Bool] = Array(repeating:false,count:n+1)
-    
     
     var sortedCosts = costs.sorted(by:{ $0[2] < $1[2] })
     
