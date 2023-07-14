@@ -1,40 +1,40 @@
 from sys import *
-from collections import *
+from collections import * 
+from heapq import * 
 from functools import *
-
-# 중위 순회
-
-
-k = int(stdin.readline()[:-1])
-
-city =  list(map(int,stdin.readline()[:-1].split()))
+from math import *
+from itertools import *
 
 
-tree = [[] for i in range(k)]
+input = stdin.readline
 
 
-def dfs(side:list,current_height:int):
+k = int(input())
+n = 2**k -1
 
+arr = list(map(int,input().split()))
 
+tree = [[] for _ in range(k)]
 
-    l = len(side)
-    rt =  l // 2
+k -= 1
+
+def inOrder(child,h):
+    global k 
+    global tree
     
-    tree[current_height].append(side[rt])
     
-    if l == 1:
+    root = len(child) // 2
+    
+    if h > k: # 높이를 벗어남
         return
     
-    dfs(side[:rt],current_height+1)
-    dfs(side[rt+1:],current_height+1)
-    
-    
- 
-    
-
-dfs(city,0)
+    inOrder(child[:root],h+1)
+    tree[h].append(child[root])
+    inOrder(child[root+1:],h+1)
 
 
-for i in range(k):
+inOrder(arr,0)
+
+for i in range(len(tree)):
     print(*tree[i])
-
+    
