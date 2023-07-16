@@ -45,7 +45,7 @@ func solution(_ n:Int, _ computers:[[Int]]) -> Int {
             
             if i == j { continue }
             
-            if computers[i][j] == 1 {
+            if computers[i][j] == 1 && find(i,&root) != find(j,&root) {
                 union(i,j,&root)
             } 
             
