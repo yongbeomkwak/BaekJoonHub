@@ -24,7 +24,7 @@ for _ in range(tc):
     
     for _ in range(n-1):
         a,b = map(int,input().split())
-        graph[b].append(a)
+        graph[b].append(a) # 자신의 부모를 담는다
         
     
     v,e = map(int,input().split())
@@ -34,7 +34,7 @@ for _ in range(tc):
     dfs(e,b)
     ans = inf
     
-    for inter in (set(a) & set(b)):
-        ans = min(ans,a.index(inter))
+    for inter in (set(a) & set(b)): #서로 교집합을 구한후 
+        ans = min(ans,a.index(inter)) # 인덱스가 적은 것이 가장 가까운 공통 조상을 가르키는 인덱스
     
     print(a[ans])
