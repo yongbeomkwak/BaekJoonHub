@@ -1,10 +1,10 @@
 # [level 3] 순위 - 49191 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191?language=swift) 
 
 ### 성능 요약
 
-메모리: 10.6 MB, 시간: 80.83 ms
+메모리: 17.4 MB, 시간: 40.74 ms
 
 ### 구분
 
@@ -12,7 +12,7 @@
 
 ### 채점결과
 
-<br/>정확성: 100.0<br/>합계: 100.0 / 100.0
+Empty
 
 ### 문제 설명
 
@@ -48,8 +48,6 @@
 
 <p>2번 선수는 [1, 3, 4] 선수에게 패배했고 5번 선수에게 승리했기 때문에 4위입니다.<br>
 5번 선수는 4위인 2번 선수에게 패배했기 때문에 5위입니다.</p>
-
-<p><a href="http://contest.usaco.org/JAN08.htm" target="_blank" rel="noopener">출처</a></p>
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
