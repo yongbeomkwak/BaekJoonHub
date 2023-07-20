@@ -1,10 +1,10 @@
 # [level 3] N으로 표현 - 42895 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42895?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42895?language=swift) 
 
 ### 성능 요약
 
-메모리: 10.3 MB, 시간: 0.00 ms
+메모리: 16.1 MB, 시간: 0.01 ms
 
 ### 구분
 
@@ -12,7 +12,7 @@
 
 ### 채점결과
 
-<br/>정확성: 100.0<br/>합계: 100.0 / 100.0
+Empty
 
 ### 문제 설명
 
@@ -61,8 +61,6 @@
 
 <p>예제 #2<br>
 <code>11 = 22 / 2</code>와 같이 2를 3번만 사용하여 표현할 수 있습니다.</p>
-
-<p><a href="https://www.oi.edu.pl/old/php/show.php?ac=e181413&amp;module=show&amp;file=zadania/oi6/monocyfr" target="_blank" rel="noopener">출처</a></p>
 
 <p>※ 공지 - 2020년 9월 3일 테스트케이스가 추가되었습니다.</p>
 
