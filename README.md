@@ -361,5 +361,43 @@ class Edge:
          return len(self) != len(other)
 ~~~
 
+~~~python
+17. string 및 진법 변한
+
+a. n진수  → 10진수
+
+print(int('444',5))
+print(int('555',6))
+print(int('FFF',16))
+
+b. 10진수  → 2, 8, 16진수
+
+2, 8, 16진수는 bin(), oct(), hex() 함수를 지원합니다.
+
+print(bin(10))
+print(oct(10))
+print(hex(10))
+
+
+c. n진수  → n진수
+
+import string
+
+tmp = string.digits+string.ascii_lowercase
+def convert(num, base) :
+    q, r = divmod(num, base)
+    if q == 0 :
+        return tmp[r] 
+    else :
+        return convert(q, base) + tmp[r]
+
+
+print(convert(int('a',16),2))
+print(convert(int('4',5),3))
+print(convert(int('2',3),4))
+print(convert(int('11',2),5))
+
+~~~
+
 
 
