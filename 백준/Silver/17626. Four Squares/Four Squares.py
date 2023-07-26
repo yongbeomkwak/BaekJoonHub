@@ -3,19 +3,19 @@ from collections import *
 from heapq import * 
 from functools import *
 from math import *
+from itertools import *
+
+#setrecursionlimit(10**9)
+input = stdin.readline
 
 
 
+N = int(input())
 
-N = int(stdin.readline()[:-1])
-
-
-LMIT = 50001
 dp = [0 for _ in range(N+1)]
 
 
 dp[1] = 1
-
 
 for i in range(2,N+1):
     j = 1
@@ -29,3 +29,4 @@ for i in range(2,N+1):
     dp[i] = m + 1
 
 print(dp[N])
+
