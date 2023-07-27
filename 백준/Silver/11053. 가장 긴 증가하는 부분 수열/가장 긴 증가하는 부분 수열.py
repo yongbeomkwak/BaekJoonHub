@@ -1,21 +1,30 @@
-import sys
-sys.setrecursionlimit(2500)
-LMIT = 1000
-dp = [ 1 for _ in range(LMIT)]
-#in_list =[]
+from sys import *
+from collections import * 
+from heapq import * 
+from functools import *
+from math import *
+from itertools import *
 
-if __name__ == "__main__":
-    n = int(input())
+#setrecursionlimit(10**9)
+input = stdin.readline
+
+
+n = int(input())
+
+arr = list(map(int,input().split()))
+
+dp = [1] * 1001
+
+
+ans = 1
+
+for i in range(n):
+    for j in range(i+1):
+        if arr[i] > arr[j]:
+            dp[i] = max(dp[i],dp[j]+1)
     
-    in_list=list(map(int,input().split()))
-    ans=1
-    for i in range(n):
-        for j in range(i+1):
-            if in_list[i]>in_list[j]:
-                dp[i]=max(dp[i],dp[j]+1)
-        
-        ans=max(ans,dp[i])
-    print(ans)
+    
+    ans = max(ans,dp[i])
 
-   
-
+print(ans)
+    
