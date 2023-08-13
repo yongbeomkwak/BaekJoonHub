@@ -50,7 +50,7 @@ for i in range(len(arr)):
         s_count = 0 
     
 
-j += j_count * arr[-1]
+j += j_count * arr[-1] #  만약 14일까지 팔지 못한 개수가 남아 있으면 , 전량 매도 한 것을 더함 
 s = s + arr[-1] * s_count if s_count !=0 else s  #  만약 14일까지 팔지 못한 개수가 남아 있으면 , 전량 매도 한 것을 더함 
 
 
