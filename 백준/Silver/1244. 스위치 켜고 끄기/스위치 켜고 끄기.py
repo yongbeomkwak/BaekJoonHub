@@ -1,64 +1,43 @@
 from sys import *
-from collections import *
-from queue import *
+from collections import * 
+from heapq import * 
+from functools import *
+from math import *
+from itertools import *
+import string
 
+#setrecursionlimit(10**9)
+input = stdin.readline
 
+n = int(input())
+
+switches = [0] + list(map(int,input().split()))
+
+m = int(input())
+
+for _ in range(m):
+    
+    g,num = map(int,input().split())
+    
+    if g == 1 :
         
-
-
-if __name__ == "__main__":
+        for i in range(num,n+1,num):
+            switches[i] =  0 if switches[i] == 1 else 1 # 반전
     
-    n:int = int(stdin.readline()[:-1])
-    switches = list(map(int,stdin.readline()[:-1].split()))
-    
-    n_students = int(stdin.readline()[:-1])
-    
-    tasks = []
-    for _ in range(n_students):
-        _in = list(map(int,stdin.readline()[:-1].split()))
-        tasks.append((_in[0],_in[1]))
-    
-    for i in range(n_students):
-        now = tasks[i]
-        gender = now[0]
-        idx = now[1]
+    else :
         
-        if(gender==1):
-
-            for j in range(idx-1,len(switches),idx):
-                switches[j]=int(not(switches[j]))
-                
-        else:
-            switches[idx-1]=int(not(switches[idx-1]))
-            
-            left =idx-2
-            right = idx
-            while(left>=0 and right < len(switches)):
+            switches[num] =  0 if switches[num] == 1 else 1 # 반전
+            left = num-1
+            right = num+1
+            while(left>=1 and right < n+1):
                 if(switches[left]==switches[right]):
-                    switches[left] = int(not(switches[left]))
-                    switches[right] = int(not(switches[right]))
+                    switches[left] = 0 if switches[left] == 1 else 1 # 반전
+                    switches[right] = 0 if switches[right] == 1 else 1 # 반전
                     left-=1
                     right+=1
-                    continue
                 else:
                     break
- 
-    
-    for i in range(len(switches)):
-        if((i+1)%20 ==0):
-            stdout.write(f'{switches[i]} \n')
-        else:
-            stdout.write(f'{switches[i]} ')
-            
-    
-   
-    
-    
-    
-    
-    
+        
 
-    
-   
-    
-    
+for i in range(1,n,20):
+    print(*switches[i:i+20])
