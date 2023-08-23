@@ -95,7 +95,7 @@ for _ in range(10):
 # 123 123 123 1 ,여백은 구분하기 위해 넣어논 것 
 
 
-c. product: 데카르트 곱
+c. product: 데카르트 곱 (중복 순열) , 중복 조합
 
 product(iterator1, iterator2, .. , [repeat=1])
 
@@ -113,6 +113,12 @@ A X B
 print(list(product(A,B,repeat = 2)))
 (A X B) X (A X B)
 [(1, 4, 1, 4), (1, 4, 1, 5), (1, 4, 1, 6), ...)]
+
+
+for c in combinations_with_replacement([1,2,3],2):
+        print(c)
+
+(1, 1),(1, 2),(1, 3),(2, 2),(2, 3),(3, 3)
 
 
 
