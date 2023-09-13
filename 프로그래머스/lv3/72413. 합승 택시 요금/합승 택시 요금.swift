@@ -17,13 +17,16 @@ func solution(_ n:Int, _ s:Int, _ a:Int, _ b:Int, _ fares:[[Int]]) -> Int {
         
     }
     
-    for i in 1...n {
-        graph[i][i] = 0
-    }
     
     for k in 1...n {
         for i in 1...n {
             for j in 1...n {
+                
+                if i == j {
+                    graph[i][j] = 0
+                    continue
+                }
+                
                 if graph[i][j] > graph[i][k] + graph[k][j] {
                     graph[i][j] = graph[i][k] + graph[k][j]
                 }
