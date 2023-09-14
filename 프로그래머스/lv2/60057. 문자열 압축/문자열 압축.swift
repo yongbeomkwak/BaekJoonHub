@@ -29,27 +29,27 @@ func compress(_ s:String, _ width:Int) -> String {
     
     for i in stride(from:0,to:s.count,by:width) {
         
-        if i + width >= s.count {
+        if i + width >= s.count { // 끝자락 일 때 
             
             if s[i..<s.count] == pattern {
                 count += 1 
             }
             
             else {
-                result += count == 1 ? pattern : "\(count)\(pattern)"
-                pattern = s[i..<s.count] 
+                result += count == 1 ? pattern : "\(count)\(pattern)" // 이전 패턴 추가 후
+                pattern = s[i..<s.count] // 교체 
                 count = 1
             }
             
         }
         else {
             
-            if s[i..<i+width] == pattern {
-                count += 1 
+            if s[i..<i+width] == pattern { // 현재 패턴고 같으면 
+                count += 1 // 증가 
             }
             
-            else {
-                result += count == 1 ?  pattern : "\(count)\(pattern)"
+            else { // 패턴과 다르면 
+                result += count == 1 ?  pattern : "\(count)\(pattern)" // 이전 패턴 추가 후 
                 pattern = s[i..<i+width] // 현재 문자열을 패턴으로
                 count = 1
             }
