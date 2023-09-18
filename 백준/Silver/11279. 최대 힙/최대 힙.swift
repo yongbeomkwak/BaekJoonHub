@@ -1,7 +1,5 @@
 import Foundation
 
-import Foundation
-
 public struct Heap<T> {
     // 전체 노드
     var nodes: [T] = []
@@ -23,7 +21,7 @@ public struct Heap<T> {
     }
 
     // 삽입
-    mutating func push(_ element: T) {
+    mutating func push(_ element: T) { 
         
 
         nodes.append(element)
@@ -43,12 +41,12 @@ public struct Heap<T> {
         }
 
         if nodes.count == 1 {
-            return nodes.removeFirst()
+            return nodes.removeLast()
         }
 
-        let result = nodes.first
+      
         nodes.swapAt(0, nodes.count-1)
-        _ = nodes.popLast() // 결과는 제외 하고
+        let result = nodes.popLast() // 결과는 제외 하고 
 
         var index = 0
 
@@ -59,10 +57,10 @@ public struct Heap<T> {
 
             if right < nodes.count {
                 if comparer(nodes[left], nodes[right]),
-                    !comparer(nodes[right], nodes[index]) { //오른쪽과 index가 순서가 안 맞을 때
+                    !comparer(nodes[right], nodes[index]) { //오른쪽과 index가 순서가 안 맞을 때 
                     nodes.swapAt(right, index)
                     index = right
-                } else if !comparer(nodes[left], nodes[index]){ // left와 index가 순서가 안 맞을 때
+                } else if !comparer(nodes[left], nodes[index]){ // left와 index가 순서가 안 맞을 때 
                     nodes.swapAt(left, index)
                     index = left
                 } else {
@@ -91,28 +89,6 @@ extension Heap where T: Comparable {
     }
 }
 
-
-/*
-// Min Heap 세팅
-var minHeap = Heap<Int>(comparer: >=)
-
-// Max Heap 세팅
-var maxHeap = Heap<Int>(comparer: <=)
-
-// 100 삽입
-minHeap.push(100)
-
-// 삭제
-let _ = minHeap.pop()
-
-// top 반환
-let top = minHeap.top()
-
-// heap 원소 개수
-let heapCount = minHeap.nodes.count
-
-
-*/
 
 let n = Int(readLine()!)!
 
