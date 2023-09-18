@@ -1,18 +1,11 @@
-//
-//  main.swift
-//  terminal
-//
-//  Created by yongbeomkwak on 2022/08/23.
-//
-
 import Foundation
 
-let input = readLine()!.components(separatedBy: " ").map({Int($0)!})
+
+let nab = readLine()!.split{$0 == " "}.compactMap{Int(String($0))!}
 
 
- 
+let sa = Set(readLine()!.split{$0 == " "}.compactMap{Int(String($0))!})
+let sb = Set(readLine()!.split{$0 == " "}.compactMap{Int(String($0))!})
 
-let setA = Set(readLine()!.components(separatedBy: " ").map({Int($0)!}))
-var setB = Set(readLine()!.components(separatedBy: " ").map({Int($0)!}))
-print(setA.symmetricDifference(setB).count)
 
+print(sa.subtracting(sb).count + sb.subtracting(sa).count)
