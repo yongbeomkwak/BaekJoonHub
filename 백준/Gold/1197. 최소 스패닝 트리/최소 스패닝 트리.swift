@@ -29,7 +29,7 @@ func find(_ c:Int) -> Int {
     
     var r = parents[c]
     
-    // 보모를 찾음
+    // 부모를 찾음
     while r != parents[r] {
             
         r = parents[r]
@@ -41,7 +41,7 @@ func find(_ c:Int) -> Int {
     while c != parents[c] {
         
         let nextC = parents[c]
-        parents[c] = r
+        parents[c] = r // 위에서 찾은 부모들을 맵핑
         c = nextC
     }
     
