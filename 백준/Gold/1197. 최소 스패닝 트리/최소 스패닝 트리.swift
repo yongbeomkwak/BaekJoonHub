@@ -69,7 +69,7 @@ var result:Int = 0
 
 for edge in graph {
     
-    if lines == v-1 {
+    if lines == v-1 { // 더한 간선은 항상 정점-1 개이다.
         break
     }
     
