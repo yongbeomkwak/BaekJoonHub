@@ -1,6 +1,6 @@
 # [level 3] 순위 - 49191 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191?language=swift) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191?language=kotlin) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 11월 1일 11:41:18
+2023년 11월 1일 11:41:29
 
 ### 문제 설명
 
