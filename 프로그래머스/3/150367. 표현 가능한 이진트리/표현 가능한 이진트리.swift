@@ -14,6 +14,7 @@ func inorder(_ r:Int , _ list:[Int]) -> Bool {
     let rr = (right.count/2)
     
     
+    // 루트가 0 인데 자식이 1은 될 수가 없음 
     if (list[r] == 0) && (left[lr] == 1 || right[rr] == 1) {
         return false
     }
