@@ -24,21 +24,12 @@ func solution(_ n:Int, _ arr1:[Int], _ arr2:[Int]) -> [String] {
 
     
     for i in 0..<n {
-        var s1 = String(arr1[i],radix:2)
-        var s2 = String(arr2[i],radix:2)
-        s1 = String(repeating:"0", count: n-s1.count)+s1
-        s2 = String(repeating:"0", count: n-s2.count)+s2
+        var s = String(arr1[i]|arr2[i],radix:2)
         
-        var ans: String = ""
+        s = String(repeating:"0",count:n-s.count)+s
         
-        for j in 0..<n {
-            if s1[j] == "0" , s1[j] == s2[j] {
-                ans += " "
-            }
-            else {
-                ans += "#"
-            }
-        }
+        let ans = s.map{return $0 == "0" ? " " : "#"}.joined()
+    
         
         answer.append(ans)
     }
