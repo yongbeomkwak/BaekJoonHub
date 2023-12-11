@@ -1,46 +1,33 @@
 import Foundation
 
-struct Info {
-    
-    let key:Int // 데이터
-    let count:Int // 누적값
-    
-    init(_ key:Int,_ count:Int){
-        self.key = key 
-        self.count = count
+extension String {
+    subscript(_ index: Int) -> String { 
+        return String(self[self.index(self.startIndex, offsetBy: index)])
     }
-     
-    public static func >= (lhs:Self,rhs:Self) ->Bool { // 내림차순 
-        return lhs.count>=rhs.count
-    }
-    
 }
 
 func solution(_ s:String) -> [Int] {
     
-    var hash:[Int:Info] = [:]
-    var ans:[Int] = []
-    
-    var num = ""
+    var num: String = ""
+
+    var hash: [Int:Int] = [:] // 숫자:횟수
     
     for c in s {
         if c.isNumber {
             num += String(c)
-        }
-        else {
+        } else {
             if !num.isEmpty {
-                var i = Int(num)!
-                let tmp = Info(i,0)
-                hash[i] = Info(i,hash[i,default:tmp].count+1)
+                var i_num = Int(num)!            
+                hash[i_num] = hash[i_num,default:0]+1
             }
+            
             num = ""
         }
     }
     
+    var sorted_list = Array(hash).sorted(by:{$0.1 > $1.1}).map{$0.0} // 횟수로 내림차순 후 , key만 
     
-    for value in hash.values.sorted(by:>=) { 
-        ans.append(value.key)
-    }
     
-    return ans
+    
+    return sorted_list
 }
