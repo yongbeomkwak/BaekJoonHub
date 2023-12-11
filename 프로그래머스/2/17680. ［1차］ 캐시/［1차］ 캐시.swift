@@ -1,44 +1,38 @@
-
-
-let HIT: Int = 1
-let MISS: Int = 5
-
-
-
+import Foundation
 
 func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
     
-    func getNewCahce(_ oldCache:[String], _ city:String) -> [String] {
-        
-        var newCache = oldCache
-        
-        if let index = newCache.firstIndex(of: city) { // 존재하면 해당 인덱스 삭제
-              newCache.remove(at: index)
-        }
-        
-        if newCache.count == cacheSize { // 없으면
-            newCache.removeLast()
-        }
-        
-        newCache.insert(city,at:0)
-        
-        
-        return  newCache
+    if cacheSize == 0 {
+        return 5 * cities.count
     }
+    
+    var cities = cities.map{$0.lowercased()}
     
     var cache: [String] = []
-    var count:Int = 0
     
-    if cacheSize == 0 { return 5*cities.count }
-    else{
-      for city in cities{
-        let lowedCity = city.lowercased()
-        if cache.contains(lowedCity){ count += 1 }
-        else{ count += 5 }
-        cache = getNewCahce(cache,lowedCity)
-      }
+    var time: Int = 0
+    
+    for city in cities {
+        
+        if let index = cache.firstIndex(of:city) { // 캐쉬에 있음
+            time += 1 // cache hit
+            
+            if index != cache.count-1  { // 만약 가장 최근 값이 아니면
+                cache.remove(at:index) // 해당 위치 지우고
+                cache.append(city) // 가장 최근으로 넣어 줌 
+            }
+            
+        } else { // 캐쉬 미스
+            time += 5 
+            
+            if cache.count == cacheSize { // 꽉차있으면 , 가장 앞에꺼 제거 
+                cache.removeFirst()
+            }
+            cache.append(city)
+        }
+        
     }
     
     
-    return count
+    return time
 }
