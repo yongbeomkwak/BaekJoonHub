@@ -1,22 +1,28 @@
+extension String {
+
+    // var a:String = "123" 
+    // print(a[0]) = "1"
+
+    subscript(_ index: Int) -> String { 
+        return String(self[self.index(self.startIndex, offsetBy: index)])
+    }
+}
+
 func solution(_ n:Int, _ t:Int, _ m:Int, _ p:Int) -> String {
-    // n: 진법
-    // t: 구해야할 숫자 갯수
-    // m: 참가 인원
-    // p: 순서
-    // 0110 11 100 101 110 111 1000
-    // 0110 11 1
+    
+    var now = 0
+    
+    let end = (t-1)*m  + p // 필요한 길이 
     
     var numbers: [String] = []
+    
+    while numbers.count < end { // 헤당 길이를 채울 때 까지  진법 
+        numbers += String(now, radix: n).compactMap({ String($0).uppercased() })
+        now += 1
+    }  
+    
+    
 
     
-    var k:Int = 0
-    
-    let count = t*m
-    
-    while numbers.count < count { // (진행할 턴 * 인원 수) = 모든 턴이 지낫을 때 말할 숫자의 개수
-        numbers += String(k, radix: n).compactMap({ String($0).uppercased() })
-        k+=1
-    } 
-      
-    return stride(from: p - 1, to: count, by: m).reduce("", { $0 + numbers[$1] })
+    return  stride(from: p - 1, to: end, by: m).reduce("", { $0 + numbers[$1] })
 }
