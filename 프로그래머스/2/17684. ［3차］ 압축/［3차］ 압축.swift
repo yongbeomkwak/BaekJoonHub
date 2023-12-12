@@ -1,62 +1,39 @@
-extension String {
-
-    // var a:String = "123" 
-    // print(a[0]) = "1"
-
-    subscript(_ index: Int) -> String { 
-        return String(self[self.index(self.startIndex, offsetBy: index)])
-    }
-
-
-    //let str = "abcde"
-    //print(str[0..<4]) // abcd
-
-    subscript(_ range: Range<Int>) -> String {
-        let fromIndex = self.index(self.startIndex, offsetBy: range.startIndex)
-        let toIndex = self.index(self.startIndex,offsetBy: range.endIndex)
-        return String(self[fromIndex..<toIndex])
-    }
-
-}
-
 func solution(_ msg:String) -> [Int] {
     
-    var dictionary: [String:Int] = [:]
-    var `set` = Set<String>()
+    var dict: [String:Int] = [:]
     
-     for i in 0...25 { // A~Z부터 넣어놓기 
-        let alpha =  String(Character(UnicodeScalar(65+i)!))
-        dictionary[alpha] = i+1 
-         set.insert(alpha)
+    // "A" ~ "Z"
+    for i in 0...25 {
+        dict[String(Character(UnicodeScalar(65+i)!))] = i+1
     }
     
-    if msg.count == 1 { // 만약 문자열 길이가 하나면 인덱스 바로 리턴
-        return [dictionary[msg]!]
-    }
-    
-    var ans:[Int] = []
-    
-    var now: String = msg[0] // 현재 가르키고 있는 문자 
-    
-    for i in 1..<msg.count {
-        let next = msg[i] // 다음 문자
-        
-        let comb = now+next // 둘이 더한 조합 문자열 
-        
-        if set.contains(comb) { // w+c가 이미 있으면 
-            now = comb // now 갱신 넘어감
-            continue 
-        } else { // 없으면 셋과 딕셔너리에 넣어 줌
-            set.insert(comb) 
-            dictionary[comb] = set.count
-            ans.append(dictionary[now]!) // 현재 문자 인덱스 추출
-            now = next
-        }
+    var arr = Array(msg).map{String($0)}
 
+    
+    var now: String = arr[0]
+
+    
+    var ans: [Int] = []
+    
+    
+    for i in 1..<arr.count {
+
+        if dict[now,default:0] != 0 { // 현재 값 존재 
+            if dict[now+arr[i],default:0] == 0 { // 다음 글자와 조합한 것이 존재하지 않을 때 
+                ans.append(dict[now]!) // 현재 값 출력 
+                dict[now+arr[i]] = dict.count+1 // 다음 번호 부여 
+                now = arr[i] // 현재 글자이동 
+            } else { // 다음 글자와 조합한 것이 존재할 때 
+                now += arr[i]
+            }
+        }
+        
+        
     }
     
-    ans.append(dictionary[now]!) // 마지막 글자 c
-    
+    if !now.isEmpty { // 마지막 글자 출력
+        ans.append(dict[now,default:0])
+    }
     
     
     return ans
