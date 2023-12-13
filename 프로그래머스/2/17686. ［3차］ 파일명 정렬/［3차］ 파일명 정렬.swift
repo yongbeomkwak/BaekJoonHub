@@ -28,10 +28,10 @@ struct File {
             return true 
         } else if lHead == rHead {
         
-            return lNumber < rNumber // stable sort , 같을 때가 false여야 자리 안바뀜 , 
+            return lNumber < rNumber // stable sort: ==  false 
         } 
         
-        return false 
+        return false
     }
     
     
