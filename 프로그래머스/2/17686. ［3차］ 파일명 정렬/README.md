@@ -1,10 +1,10 @@
 # [level 2] [3차] 파일명 정렬 - 17686 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17686?language=swift) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17686) 
 
 ### 성능 요약
 
-메모리: 17 MB, 시간: 48.55 ms
+메모리: 16.9 MB, 시간: 40.28 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 11월 5일 16:58:45
+2023년 12월 3일 21:55:45
 
 ### 문제 설명
 

@@ -1,78 +1,83 @@
-import Foundation
-
-extension String {
-
-    // var a:String = "123" 
-    // print(a[0]) = "1"
-
-    subscript(_ index: Int) -> String { 
-        return String(self[self.index(self.startIndex, offsetBy: index)])
+struct File {
+    
+    var head = ""
+    var number = ""
+    var tail = ""
+    
+    var raw: String = ""
+    
+    
+    public init(_ head: String, _ number: String, _ tail: String = "") {
+        self.head = head
+        self.number = number
+        self.tail = tail
+        
+        raw = head+number+tail
     }
-
-
-    //let str = "abcde"
-    //print(str[0..<4]) // abcd
-
-    subscript(_ range: Range<Int>) -> String {
-        let fromIndex = self.index(self.startIndex, offsetBy: range.startIndex)
-        let toIndex = self.index(self.startIndex,offsetBy: range.endIndex)
-        return String(self[fromIndex..<toIndex])
+    
+    public static func <= (lhs:Self, rhs: Self) -> Bool {
+        
+        let lHead = lhs.head.uppercased()
+        let rHead = rhs.head.uppercased()
+        
+        let lNumber = Int(lhs.number)!
+        let rNumber = Int(rhs.number)!
+        
+        
+        if lHead < rHead {
+            return true 
+        } else if lHead == rHead {
+        
+            return lNumber < rNumber // stable sort , 같을 때가 false여야 자리 안바뀜 , 
+        } 
+        
+        return false 
     }
-
+    
+    
+    
 }
 
 func solution(_ files:[String]) -> [String] {
     
-
-    var splitedFiles:[[String]] = []
     
-
-    
+    var convertedFiles: [File] = []
     
     for file in files {
-        var state = 0
-        var head = ""
-        var number = ""
-        var tail = ""
+        var i = 0 // 0: haed , 1: number : 2 tail 
         
-        file.forEach{ c in
+        var head: String = ""
+        var number: String = ""
+        var tail: String = ""
+        
+        for c in file {
             
-            if c.isNumber && state == 0{
-                state = 1
+            if i == 0 && c.isNumber { // 현재 head인데 지금 문자가 숫자면 number로 스위칭
+                i += 1
             }
             
-            if !c.isNumber && state == 1{
-                state = 3 
+            if i == 1 && !c.isNumber { // 현재 number인데 지금 문자가 숫자가 아니면 tail로 스위칭 
+                i += 1 
             }
             
-            if state == 0 {
-                head += String(c)
-            } else if state == 1 {
-                number += String(c)
-            } else {
-                tail += String(c)
+            switch i {
+                case 0 :
+                    head.append(String(c))
+                
+                case 1 :
+                    number.append(String(c))
+                
+                default :
+                    tail.append(String(c))
             }
+            
         }
+
         
-        splitedFiles.append([head,number,tail])
+        convertedFiles.append(File(head,number,tail))
     }
     
     
-    return splitedFiles.enumerated().sorted(by:{ 
-        
-        let head1 = $0.element[0].lowercased()
-        let head2 = $1.element[0].lowercased()
-        let number1 = Int($0.element[1])!
-        let number2 = Int($1.element[1])!
-        
-        if head1 != head2 { return head1 < head2} // 
-        if number1 != number2 {return number1 < number2}  
-        
-        
-        // 모두 같으면 , stable sort
-        return $0.offset < $1.offset
-    }).map{$0.element}.map{$0.joined()}
     
-
-
+    return convertedFiles.sorted(by:<=).map{$0.raw}
 }
