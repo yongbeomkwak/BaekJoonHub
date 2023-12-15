@@ -1,54 +1,57 @@
 import Foundation
 
-
 func solution(_ gems:[String]) -> [Int] {
     
+    var left = 0 
+    var right = 0
     
-    var kind = Set(gems).count
- 
-    if kind == 1 {
+    let target = Set(gems).count
+    
+    if target == 1 {
         return [1,1]
     }
     
-    var start = 0
-    var end = 0
-    var dist = 1000001 
-    var ans:[Int] = [0,gems.count]
+    var bag: [String:Int] = [:]
     
-    var dict = [String:Int]() // 해당 복수 개수   
+    var dist = 100001
     
-    while start <= end {
+    var ans:[Int] = [0,0]
     
+    while left <= right {
         
-        if dict.count >= kind { // 모든 종류를 다담으았으면
+        var jwt = gems[left]
+        
+        if bag.count >= target { // 조건을 만족 
             
-            dict[gems[start]]!-=1 //왼쪽 뺘고
-            
-            if dict[gems[start]]! == 0 { // 뺀 후 0이면 ,key 제거 
-                dict[gems[start]] = nil
+            if bag[jwt,default:0] > 1 { // 1초과 이면 제거
+                bag[jwt]! -= 1
+            } else { // 1개 이하면, 값 비워줌 
+                bag[jwt] = nil 
             }
             
-            
-            start+=1 
-            
-        } else if end == gems.count {break} // 범위 벗어 났으면 break
-        
-        else {
-            dict[gems[end]] = dict[gems[end],default:0]+1
-            end+=1
+            left += 1
+        } else if right == gems.count { // right이 끝에 도달하면 종료 
+            break
         }
         
-        
-        if dict.count == kind , dist > end-start  { // 제거한 후 역시 모든 종류 보석 같고 있으면 최소 거리 비교
-        
-            dist = end-start
-            ans[0] = start+1
-            ans[1] = end
-        }
+        else { // 아직 모든 종료를 다 담지 못했으면
             
-         
+            jwt = gems[right]
+            
+            bag[jwt] = bag[jwt,default:0]+1
+            
+            right += 1 
+        }
+        
+        if bag.count == target , dist > right - left { // 모든 종류를 담고 최소거리보다 작을 때 
+            
+            dist = right - left
+            ans[0] = left+1 
+            ans[1] = right
+        }
 
     }
+    
     
     return ans
 }
