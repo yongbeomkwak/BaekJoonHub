@@ -1,10 +1,10 @@
 # [level 3] 불량 사용자 - 64064 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64064?language=swift) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64064) 
 
 ### 성능 요약
 
-메모리: 16.7 MB, 시간: 0.36 ms
+메모리: 16.4 MB, 시간: 0.36 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 11월 1일 15:56:57
+2023년 12월 5일 13:1:17
 
 ### 문제 설명
 

@@ -1,52 +1,31 @@
 import Foundation
 
-extension String {
-
-    // var a:String = "123" 
-    // print(a[0]) = "1"
-
-    subscript(_ index: Int) -> String { 
-        return String(self[self.index(self.startIndex, offsetBy: index)])
-    }
-
-
-    //let str = "abcde"
-    //print(str[0..<4]) // abcd
-
-    subscript(_ range: Range<Int>) -> String {
-        let fromIndex = self.index(self.startIndex, offsetBy: range.startIndex)
-        let toIndex = self.index(self.startIndex,offsetBy: range.endIndex)
-        return String(self[fromIndex..<toIndex])
-    }
-
-}
-
-func isVillain(_ s1: String, _ s2: String) -> Bool { // 불량 사용자인지 판단
+func isBanned(_ user: String,_ pattern: String) -> Bool {
     
-    if s1.count != s2.count {
-        return false 
+    if user.count != pattern.count {
+        return false
     }
     
     
-    for i in 0..<s1.count {
+    for (u,p) in zip(user,pattern) {
         
-        if s1[i] == s2[i] || s2[i] == "*" {
-            continue 
+        if p == "*" {
+            continue
         }
         
-        else {
+        if u != p {
             return false 
         }
     }
     
     return true
-    
 }
+ 
 
 func solution(_ user_id:[String], _ banned_id:[String]) -> Int {
     
     
-    let uCount = user_id.count
+     let uCount = user_id.count
     let bCount = banned_id.count
     
     var visited: [Bool] = [Bool](repeating:false, count: uCount) // 탐색을 위한 방문여부 배열 
@@ -56,7 +35,7 @@ func solution(_ user_id:[String], _ banned_id:[String]) -> Int {
     for (bIndex,bid) in banned_id.enumerated() {
         
         for (uIndex,user) in user_id.enumerated() {
-            if isVillain(user,bid) { // 검거
+            if isBanned(user,bid) { // 검거
                 graph[bIndex].append(uIndex) // 불량 유저 추가 
             }
         }
@@ -94,4 +73,7 @@ func solution(_ user_id:[String], _ banned_id:[String]) -> Int {
     print(ans)
     
     return ans.count
+    
+    
+    return 0
 }
