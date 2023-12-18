@@ -1,5 +1,4 @@
 import Foundation
-
 func countZero(_ stones:[Int],_ limit:Int, _ k:Int) -> Bool {
  
     var stone = 0
@@ -23,7 +22,6 @@ func solution(_ stones:[Int], _ k:Int) -> Int {
         return (l+r)/2
     }
     
-    var ans:Int = 0
     
     while l<=r {
         
