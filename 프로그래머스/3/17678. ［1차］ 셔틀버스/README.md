@@ -1,10 +1,10 @@
 # [level 3] [1차] 셔틀버스 - 17678 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17678?language=swift) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17678) 
 
 ### 성능 요약
 
-메모리: 16.6 MB, 시간: 8.39 ms
+메모리: 16.7 MB, 시간: 7.93 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 11월 6일 11:21:18
+2023년 12월 2일 22:39:45
 
 ### 문제 설명
 

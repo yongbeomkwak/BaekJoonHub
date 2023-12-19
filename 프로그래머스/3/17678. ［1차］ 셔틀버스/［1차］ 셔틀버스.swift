@@ -1,57 +1,62 @@
-func timeToMin(_ s: String) -> Int {
+
+func convert1(_ s: String) -> Int {
     
-    let time = s.split{$0 == ":"}.map{Int($0)!}
+    var s = s.split{$0 == ":"}.map{Int($0)!}
     
-    return time[0]*60 + time[1]
-    
+    return s[0]*60 + s[1]
 }
 
-func minToTime(_ time:Int) -> String {
+func convert2(_ t: Int) -> String {
     
-    var hour = String(time/60)
-    var min =  String(time%60)
+    var h = "\(t/60)"
+    var m = "\(t%60)"
     
-    hour = hour.count == 1 ? "0"+hour : hour
-    min = min.count == 1 ? "0"+min : min
+    h = h.count == 1 ? "0\(h)" : h 
+    m = m.count == 1 ? "0\(m)" : m
     
-    return hour+":"+min
-    
-    
+    return "\(h):\(m)"
 }
+
 
 func solution(_ n:Int, _ t:Int, _ m:Int, _ timetable:[String]) -> String {
     
-    // n: 운행횟수
-    // t: 운행 간격
-    // m : 최대 크르 수
+    var timetable = Array(timetable.map{convert1($0)}.sorted().reversed())
     
-    var timeTable = timetable.map{timeToMin($0)}.sorted(by:>=)
+    let first = convert1("09:00") // 첫차 시간 
+    let last = first + ((n-1)*t) // 막차 시간 = 첫차시간 + (운행횟수-1) * 배차 간격 
     
+    var s : String = ""
     
-    var busArrived: Int = 540 // 09:00
-    
-    var ans: String = ""
-    
-    for i in 0..<n {
-        var bus:[Int] = []
-            
-        while  !timeTable.isEmpty, timeTable.last! <= busArrived , bus.count < m {
-            bus.append(timeTable.removeLast())
-        } 
+    for time in stride(from: first, through: last, by: t){
+        
+        var taked: Int = 0
+        var last_taked_time: Int = 0
         
         
-        if bus.count == m { // 꽉찼으면
-            let last = bus.last! // 마지막 승객
-            ans = minToTime(last-1) // 마지막 승객보다 딱 1분 빨리옴 
+        while !timetable.isEmpty , timetable.last! <= time { // 현재 버스 시간 이하로 온 사람들 태움 
+
+            if taked < m {
+                taked += 1
+                last_taked_time = timetable.removeLast() // 마지막 탑승 승객 시간 기록 
+            } else {
+                break
+            }
 
         }
-        else { // 여유 있으면 버스 도착 시간에
-            ans = minToTime(busArrived)
+        
+        if timetable.isEmpty || time == last { // 모두 탔거나 , 막차일 때 
+            
+            if taked < m { // 탑승인원 널널할 때
+                s = convert2(time) 
+            } else {
+                s = convert2(last_taked_time-1)  // 마지막 탑승인원보다 1분 빠르기
+            }
+            
+            break
         }
         
-        busArrived += t  // 다음 버스 
-        
+    
     }
     
-    return ans
+    return s
 }
