@@ -2,19 +2,8 @@ import Foundation
 
 struct Queue<T> {
     
-    var enque: [T]
-    
-    var deque: [T] = []
-    
-    
-    init(_ enque: [T]) {
-        self.enque = enque
-    }
-    
-    var isEmpty: Bool {
-        return enque.isEmpty && deque.isEmpty 
-    }
-    
+    var enque:[T] = []
+    var deque:[T] = []
     
     var front: T? {
         
@@ -22,106 +11,125 @@ struct Queue<T> {
             return enque.first
         }
         
-        return deque.last 
+        return deque.last
         
     }
     
-    mutating func push(_ element: T){
+    var isEmpty: Bool {
+        return enque.isEmpty && deque.isEmpty 
+    }
+    
+    mutating func push(_ element:T) {
         enque.append(element)
     }
     
     mutating func pop() -> T? {
         
         if deque.isEmpty {
+            
             deque = enque.reversed()
             enque.removeAll()
         }
         
-        return deque.removeLast()
+        return deque.popLast()
         
+    }
+    
+}
+
+enum DIR: Int {
+    
+    case u = 0 
+    case d = 1
+    case l = 2
+    case r = 3
+    
+    
+    func isCorner(_ dir:Self) -> Bool {
+        
+        switch self {
+            
+            case .u,.d: 
+                return dir == .l || dir == .r
+            
+            
+            case .l,.r:
+                return dir == .d || dir == .u
+            
+        }
+    
     }
 }
 
-enum Dir:Int {
-    case `none` = -1
-    case top = 0
-    case bottom = 1
-    case left = 2
-    case right = 3
-}
-
-struct Point {
-    let x:Int
-    let y:Int 
-    let cost:Int
-    let dir:Dir
+struct Info {
     
-    init (_ x:Int, _ y:Int, _ cost:Int, _ dir:Dir){
+    let x: Int
+    let y: Int
+    let dir: DIR 
+    
+    init(_ x:Int,_ y:Int,_ dir:DIR){
         self.x = x
         self.y = y
-        self.cost = cost
         self.dir = dir
     }
 }
 
-
-let dx:[Int] = [-1,1,0,0] // 상,하,좌,우 
-let dy:[Int] = [0,0,-1,1]
-
 func solution(_ board:[[Int]]) -> Int {
     
-    //직선 도로 100 , 코너 (500+100)
-    let n = board.count
-    var dist:[[[Int]]] = [[[Int]]](repeating:[[Int]](repeating: [Int](repeating:Int.max,count: 4),count: n),count: n)
+    let n = board.count 
     
-    dist[0][0][0] = 0 // left
-    dist[0][0][1] = 0 // right
-    dist[0][0][2] = 0 // top
-    dist[0][0][3] = 0 // bottom
+    var dist: [[[Int]]] = [[[Int]]](repeating:[[Int]](repeating:[Int.max,Int.max,Int.max,Int.max],count:n),count:n)
     
-    var q = Queue<Point>([])
+    var q = Queue<Info>()
     
-    q.push(Point(0,0,0,.none))
+    let dx: [Int] = [1,-1,0,0] // 상 하 좌 우   
+    let dy: [Int] = [0,0,-1,1]
     
+    dist[0][0][0] = 0
+    dist[0][0][1] = 0
+    dist[0][0][2] = 0
+    dist[0][0][3] = 0
+    q.push(Info(0,0,.d))
+    q.push(Info(0,0,.r))
+
     while !q.isEmpty {
         
-        let now = q.pop()!
+        let front = q.pop()!
         
         
-        for i in 0..<4 { // 상하좌우
+        for i in 0..<4 {
             
-           let nx = now.x + dx[i]
-            let ny = now.y + dy[i]
-            let nextDir: Dir = Dir(rawValue:i)!
-            var nextCost = now.cost+100
+            let nx = front.x + dx[i]
+            let ny = front.y + dy[i]
+            let nextDir = DIR(rawValue:i)!
             
-            if (nx<0 || nx>=n) || (ny<0 || ny>=n) { 
+            if nx < 0 || ny < 0 || nx >= n || ny >= n {
                 continue 
             }
             
-            if board[nx][ny] == 1{ // 벽
+            if board[nx][ny] == 1 { // 다음이 벽
                 continue
             }
             
-            if  (now.dir == .left || now.dir == .right) && (nextDir == .top || nextDir == .bottom) { //현재는 수평인데, 다음이 수직 이면 코너 
-                nextCost+=500
+            let cost = dist[front.x][front.y][front.dir.rawValue]
+            var nextCost = cost+100 // 일단 직진
+            
+            
+            if front.dir.isCorner(nextDir) {
+                nextCost += 500 
             }
             
-            if (now.dir == .top || now.dir == .bottom) && (nextDir == .left || nextDir == .right) { //현재는 수직인데, 다음이 수평 이면 코너 
-                nextCost+=500
+            
+            if dist[nx][ny][nextDir.rawValue] > nextCost { // 최솟값 갱신 
+                dist[nx][ny][nextDir.rawValue] = nextCost
+                q.push(Info(nx,ny,nextDir))
             }
-            
-            if dist[nx][ny][i] > nextCost {
-                
-                dist[nx][ny][i] = nextCost
-                q.push(Point(nx,ny,nextCost,nextDir))
-                
-            } 
-            
 
+            
         }
         
     }
     
-    return dist[n-1][n-1].min()!
+
+    return dist[n-1][n-1].min()! // 4방향 중 최솟값
 }
