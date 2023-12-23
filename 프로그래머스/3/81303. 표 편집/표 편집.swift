@@ -1,117 +1,135 @@
 import Foundation
 
-struct Row {
-    
-    let data: Int
-    var prev,next:Int
-    var isExisted: Bool 
-    
-    init (_ data: Int, _ prev: Int, _ next: Int){
-        self.data = data
+class Node {
+    var data: Int 
+    var isDeleted: Bool = false
+    var prev: Int
+    var next: Int
+     
+    init(_ data:Int, _ prev:Int, _ next: Int) {
+        self.data = data 
         self.prev = prev
-        self.next = next
-        isExisted = true
+        self.next = next 
     }
     
 }
 
-
-var linkedList: [Row] = []
-var deletedRow: [Row] = []
-var cur: Int = 0
-
-
-func funcU(_ x:Int){
+struct LinkedList {
     
-    for _ in 0..<x {
-        cur = linkedList[cur].prev
-    }
-}
-
-func funcD(_ x:Int){
+    var deleted_Nodes:[Node] = []
+    var datas:[Node] = []
+    var cursor: Int = 0 
     
-    for _ in 0..<x {
-        cur = linkedList[cur].next
-    }
-}
-
-func funcC(){
-    
-    let prev = linkedList[cur].prev
-    let next = linkedList[cur].next
-
-    if prev != -1{ // 범위 벗어나지 않았으면 
-        linkedList[prev].next = next  // 이전의 다음은 현재의 다음
+    mutating func shiftUp(_ n: Int) {
+                
+        for _ in 0..<n {
+            self.cursor = datas[cursor].prev 
+        }
+        
     }
     
-    if next != -1 {  // 범위 벗어나지 않았으면
-        linkedList[next].prev = prev // 다음의 이전꺼는 현재의 이전
+    mutating func shiftDown(_ n: Int) {
+        
+        for _ in 0..<n {
+            self.cursor = datas[cursor].next
+        }
     }
     
-    linkedList[cur].isExisted = false //지금은 지워 
-    deletedRow.append(linkedList[cur]) // 삭제 배열에 추가 
-    cur = next == -1 ? prev : next // 커서를 next 범위가 벗어나면 , 이전꺼 , 아니면 다음으로 
+    mutating func delete() {
+        
+        let prev = datas[cursor].prev 
+        let next = datas[cursor].next 
+        
+        if prev != -1 {
+            datas[prev].next = next
+        }
+        
+        if next != -1 {
+            datas[next].prev = prev
+        }
+        
+        datas[cursor].isDeleted = true 
+        deleted_Nodes.append(datas[cursor])
+        cursor = next == -1 ? prev : next 
+        
+    }
+    
+    mutating func restore() {
+        
+        
+        let restore_data = deleted_Nodes.removeLast().data
+        
+        datas[restore_data].isDeleted = false // 복원 
+        let prev = datas[restore_data].prev 
+        let next = datas[restore_data].next
+        if prev != -1 { datas[prev].next = restore_data } // 이전 노드 연결
+        if next != -1 { datas[next].prev = restore_data } // 다음 노드 연결
+        
+    }
+    
+    public mutating func insert(_ node:Node) {
+        datas.append(node)
+    }
+    
+    public func print() -> String {
+    
+        var result = [String](repeating:"O",count: datas.count)
+
+        for row in deleted_Nodes { // 복원되지 않은 애들 X로 
+            result[row.data] = "X"
+        }
+
+        return result.joined()
+        
+    }
+    
 }
 
-func funcZ() {
-    
-    let restoreRow = deletedRow.removeLast().data // 복원 
-    
-    linkedList[restoreRow].isExisted = true // 복원 
-    let prev = linkedList[restoreRow].prev 
-    let next = linkedList[restoreRow].next
-    if prev != -1 { linkedList[prev].next = restoreRow } // 이전 노드 연결
-    if next != -1 { linkedList[next].prev = restoreRow } // 다음 노드 연결
-    
-}
 
 
 func solution(_ n:Int, _ k:Int, _ cmd:[String]) -> String {
     
-    cur = k
+    var list = LinkedList()
+    list.cursor = k
     
     for i in 0..<n {
         
         if i == n-1 {
-            linkedList.append(Row(i,i-1,-1)) // next = -1 
-        }
-        
-        else {
-            linkedList.append(Row(i,i-1,i+1)) 
+            list.insert(Node(i,i-1,-1))
+        } else {
+            list.insert(Node(i,i-1,i+1))
         }
         
     }
-    
-    var result = [String](repeating:"O",count: n)
-    
 
     for c in cmd {
         
         let s = c.split{$0 == " "}.map{String($0)}
         
-        if s[0] == "D" {
+        if s[0] == "U" {
             
             let x = Int(s[1])!
-            funcD(x)
+            list.shiftUp(x)
             
             
-        } else if s[0] == "U" {
+        } else if s[0] == "D" {
             
             let x = Int(s[1])!
-            funcU(x)
+            list.shiftDown(x)
      
             
         } else if s[0] == "C" { //제거
-            funcC()
+            
+           list.delete()
+            
         } else { //Z
-            funcZ()
+            
+            list.restore()
         }
         
     }
     
-    for row in deletedRow { // 복원되지 않은 애들 X로 
-        result[row.data] = "X"
-    }
+   
     
-    return result.joined()
+    return list.print()
 }
