@@ -1,71 +1,78 @@
 import Foundation
 
-
-
-func disCount(_ price: Int, _ per:Int) -> Int {
-    return (price * (100 - per)) / 100
+func discount(_ cost: Int, _ rate:Int) -> Int {
+    
+    return Int(Double(cost) / Double(100) * Double(100-rate))
 }
 
+func Rpermutation<T>(_ elements: [T], _ k: Int) -> [[T]] {
+    var result = [[T]]()
+
+    func Rpermut(_ now: [T]) {
+        if now.count == k {
+            result.append(now)
+            return
+        }
+        
+        for i in 0..<elements.count {
+            Rpermut(now + [elements[i]])
+        }
+    }
+    Rpermut([])
+    return result
+}
 
 func solution(_ users:[[Int]], _ emoticons:[Int]) -> [Int] {
     
-    //user: [할인율 기준, 전환 기준값]
-    //emoticons: 가격 
+    let discounts: [Int] = [10,20,30,40]
     
-    var sale = [Int](repeating: 0, count: emoticons.count)
-    let percent = [10, 20, 30, 40]
-    var answer = [0, 0]
+    let entire_discounts = Rpermutation(discounts,emoticons.count)
     
-    func dfs(_ depth: Int) {
+    var ans: [Int] = [0,0]
+    
+    for percents in entire_discounts { // 모든 경우의 수 (중복순열)
         
-        if depth == sale.count {
-            var plus: Int = 0
-            var money: Int = 0
-            
-            users.forEach { user in 
-                 // user[0] = 기준 퍼센티지
-                // user[1] = 전환 기준 가격
-                var total: Int = 0
-                
-                zip(sale,emoticons).forEach {
-                    // $0 = 세일 
-                    // $1 = 이모티콘 가격
-                   
-                    
-                    if user[0] <=  $0 { // 세일이 기준 퍼센티지보다 높으면 구매
-                        total += disCount($1,$0)
-                    }
-                    
-                }
-                
-                if total >= user[1] { // 전환 기준을 넘으면 plus 로 전환
-                    plus += 1    
-                } else {
-                    money += total // 전환 안하면 그냥 구매
-                }
-                
-            }
-            
-            if plus > answer[0] { // plus가 한 명이라도 많으면 그것이 베스트
-                answer[0] = plus
-                answer[1] = money 
-            } else if plus == answer[0] , money > answer[1] { // 플러스는 같은데, 많이 팔았으면
-                 answer[1] = money 
-            }
+        var members = 0
+        var total_cost = 0
+    
+       for info in users {
+            let prefer_percent = info[0] // 원하는 할인율
+            let base_cost = info[1] // 이모티콘 플러스 구매의향 누적 가격
+            var purchased: Int = 0
            
-            return 
-        }
+            for (percent,cost) in zip(percents,emoticons) { //(해당 이모티콘 할인율,가격)
         
+                let real_cost = discount(cost,percent)
+                
+                if prefer_percent <= percent { // 일정 할인율 이상이면 구매
+                
+                    // 현재까지 구매 가격 + 지금 이모티콘 가격이   만약 플러스 구매의향 가격 이상이면
+                    purchased += real_cost 
+                                
+                }
+                
+             }
+           
+           if purchased >= base_cost { // 플러스 전환 
+               members += 1
+           } else {
+               total_cost += purchased
+           }
+           
+    }
         
-        percent.forEach { // 조합 
-            sale[depth] = $0
-            dfs(depth+1)
+
+        // 판정
+        if ans[0] < members { // 플러스 가입자가 최선
+            ans[0] = members
+            ans[1] = total_cost
+        } else if ans[0] == members {
+            ans[1] = max(ans[1],total_cost) // 만약 플러스가 같다면 누적금액이 높은 것
         }
+    
+
     }
     
-    dfs(0)
     
-    
-    
-    return answer // 가입자수, 이모티콘 매출 액 
+    return ans
 }
