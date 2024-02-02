@@ -46,7 +46,7 @@ repeat {
             }
             
             
-            var oper = oper + [""]
+            var oper = oper + [""] // zip을 쓰기 위해 공백값 oper.count+1 = number.count
             
             if total == 0 {
                 
@@ -85,7 +85,7 @@ repeat {
         
     }
     
-    dfs(1, [1], [])
+    dfs(1, [1], [])  // 1은 항상 있음
     
     for ans in answer {
         print(ans)
