@@ -2,26 +2,25 @@ import Foundation
 
 func solution(_ s:String) -> Bool
 {
-    var ans:Bool = true
     
-    var stk:[Character] = []
+    var cnt: Int = 0
     
+  
     for c in s {
-       
-        if stk.isEmpty && c == ")" {
-            ans = false
-            break 
+        
+        if cnt == 0 && c == ")" {
+            return false 
         }
         
         if c == "(" {
-            stk.append(c)
+            cnt += 1
+        } else {
+            cnt -= 1
         }
         
-        else {
-            stk.removeLast()
-        }
+        
         
     }
 
-    return ans && stk.isEmpty
+    return cnt == 0
 }
