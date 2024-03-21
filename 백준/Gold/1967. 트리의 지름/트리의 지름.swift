@@ -1,45 +1,47 @@
-import Foundation
-
 let n = Int(readLine()!)!
 
-
-var graph:Array<[(Int,Int)]> = Array<[(Int,Int)]>(repeating: [], count: n+1)
-
-var dist = Array(repeating: -1, count: n+1)
-
-for _ in 0..<n-1 {
-    let info = readLine()!.split{$0 == " "}.compactMap{Int(String($0))}
+struct Node {
+    let dest: Int
+    let cost: Int
     
-    graph[info[0]].append((info[1],info[2]))
-    graph[info[1]].append((info[0],info[2]))
+    init(_ dest:Int,_ cost:Int) {
+        self.dest = dest
+        self.cost = cost
+    }
 }
 
+var graph: [[Node]] = Array(repeating: [], count: n+1)
 
-func dfs(_ now:Int,_ cost:Int) {
+for _ in 0..<n-1 {
+    let input = readLine()!.split{$0 == " "}.map{Int($0)!}
+    
+    graph[input[0]].append(Node(input[1],input[2]))
+    graph[input[1]].append(Node(input[0],input[2]))
+    
+}
 
-    for info in graph[now]{
-        if dist[info.0] == -1
-        {
-            dist[info.0] = cost + info.1
-            dfs(info.0,dist[info.0]) // 자식노드 , 누적 cost + 현재 가중치
+var dist : [Int] = [Int](repeating: -1, count: n+1)
+
+func dfs(_ now: Int, _ cost:Int) {
+    
+    for node in graph[now] {
+        
+        if dist[node.dest] == -1 {
+            dist[node.dest] = cost + node.cost
+            dfs(node.dest, dist[node.dest])
         }
         
-        
     }
+    
 }
 
 dist[1] = 0
 dfs(1,0)
 
-let dot1:Int =  dist.distance(from: 0, to: dist.firstIndex(of: dist.max()!)!)
+let dot1: Int = dist.distance(from: 0, to: dist.firstIndex(of: dist.max()!)!)
 
-dist = Array(repeating: -1, count: n+1)
-
+dist = [Int](repeating: -1, count: n+1)
 dist[dot1] = 0
-dfs(dot1,0)
-
-
+dfs(dot1, 0)
 
 print(dist.max()!)
-
-
