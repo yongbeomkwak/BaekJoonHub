@@ -1,12 +1,13 @@
 import Foundation
 
 class Node {
-    var data: Int 
     var isDeleted: Bool = false
+    let data: Int 
     var prev: Int
     var next: Int
-     
-    init(_ data:Int, _ prev:Int, _ next: Int) {
+    
+    
+    init(_ data:Int,_ prev: Int,_ next: Int) {
         self.data = data 
         self.prev = prev
         self.next = next 
@@ -14,34 +15,36 @@ class Node {
     
 }
 
-struct LinkedList {
+class LinkedList {
     
-    var deleted_Nodes:[Node] = []
-    var datas:[Node] = []
-    var cursor: Int = 0 
+    var cursor:Int = 0 
+    var deletedStack: [Node] = []
+    var datas: [Node] = []
     
-    mutating func shiftUp(_ n: Int) {
-                
+    
+    func shiftUp(_ n:Int) {
+        
         for _ in 0..<n {
-            self.cursor = datas[cursor].prev 
+            self.cursor = datas[cursor].prev
         }
         
     }
     
-    mutating func shiftDown(_ n: Int) {
+    func shiftDown(_ n:Int) {
         
         for _ in 0..<n {
             self.cursor = datas[cursor].next
         }
+        
     }
     
-    mutating func delete() {
+    func remove() {
         
-        let prev = datas[cursor].prev 
-        let next = datas[cursor].next 
+        let prev = datas[cursor].prev
+        let next = datas[cursor].next
         
         if prev != -1 {
-            datas[prev].next = next
+            datas[prev].next = next 
         }
         
         if next != -1 {
@@ -49,48 +52,51 @@ struct LinkedList {
         }
         
         datas[cursor].isDeleted = true 
-        deleted_Nodes.append(datas[cursor])
-        cursor = next == -1 ? prev : next 
+        deletedStack.append(datas[cursor])
+        cursor = next == -1 ? prev : next
+        
         
     }
     
-    mutating func restore() {
+    func restore() {
         
+        let restoredData = deletedStack.popLast()!.data
         
-        let restore_data = deleted_Nodes.removeLast().data
+        datas[restoredData].isDeleted = false
+        let prev = datas[restoredData].prev
+        let next = datas[restoredData].next
         
-        datas[restore_data].isDeleted = false // 복원 
-        let prev = datas[restore_data].prev 
-        let next = datas[restore_data].next
-        if prev != -1 { datas[prev].next = restore_data } // 이전 노드 연결
-        if next != -1 { datas[next].prev = restore_data } // 다음 노드 연결
-        
-    }
-    
-    public mutating func insert(_ node:Node) {
-        datas.append(node)
-    }
-    
-    public func print() -> String {
-    
-        var result = [String](repeating:"O",count: datas.count)
-
-        for row in deleted_Nodes { // 복원되지 않은 애들 X로 
-            result[row.data] = "X"
+        if prev != -1 {
+            datas[prev].next = restoredData
         }
-
-        return result.joined()
+        
+        if next != -1 {
+            datas[next].prev = restoredData
+        }
+        
+        
         
     }
     
-}
+    
+    func insert(_ node:Node) {
 
+        datas.append(node)
+        
+    }
+    
+    func print() -> String {
+        
+        return datas.map{$0.isDeleted == false ? "O" : "X"}.joined()
+    }
+}
 
 
 func solution(_ n:Int, _ k:Int, _ cmd:[String]) -> String {
     
     var list = LinkedList()
-    list.cursor = k
+    
+    list.cursor = k 
     
     for i in 0..<n {
         
@@ -101,35 +107,21 @@ func solution(_ n:Int, _ k:Int, _ cmd:[String]) -> String {
         }
         
     }
-
-    for c in cmd {
+    
+    for s in cmd {
+        let input = s.split{$0 == " "}.map{String($0)}
         
-        let s = c.split{$0 == " "}.map{String($0)}
-        
-        if s[0] == "U" {
-            
-            let x = Int(s[1])!
-            list.shiftUp(x)
-            
-            
-        } else if s[0] == "D" {
-            
-            let x = Int(s[1])!
-            list.shiftDown(x)
-     
-            
-        } else if s[0] == "C" { //제거
-            
-           list.delete()
-            
-        } else { //Z
-            
+        if input[0] == "D" {
+            list.shiftDown(Int(input[1])!)
+        } else if input[0] == "U" {
+            list.shiftUp(Int(input[1])!)
+        } else if  input[0] == "Z" {
             list.restore()
+        } else {
+            list.remove()
         }
         
     }
-    
-   
     
     return list.print()
 }
