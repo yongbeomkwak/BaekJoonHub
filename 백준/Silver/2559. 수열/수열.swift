@@ -19,14 +19,13 @@ var ans = acc[r-1]
 while l < n-k {
     
     ans = max(ans,acc[r] - acc[l])
-    r += 1
-    l += 1
     
     if r == n {
         break
     }
 
-    
+    r += 1
+    l += 1
 
     
 }
