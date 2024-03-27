@@ -2,33 +2,38 @@ import Foundation
 
 struct Queue<T> {
     
-    var enque:[T]
-    
-    var deque:[T] = []
-    
-    init(_ enque: [T]) {
-        self.enque = enque
-    }
+    var enque: [T]
+    var deque: [T] = []
     
     var isEmpty: Bool {
         return enque.isEmpty && deque.isEmpty
     }
     
+    var count: Int {
+        return enque.count + deque.count
+    }
     
-    var front:T? {
+    var front: T? {
         
         if deque.isEmpty {
             return enque.first
+        } else {
+            return deque.last
         }
         
-        return enque.last 
-        
+    }
+    
+    init(_ enque:[T]) {
+        self.enque = enque
+    }
+    
+    mutating func push(_ element:T) {
+        enque.append(element)
     }
     
     mutating func pop() -> T? {
         
         if deque.isEmpty {
-            
             deque = enque.reversed()
             enque.removeAll()
         }
@@ -37,52 +42,42 @@ struct Queue<T> {
         
     }
     
-    mutating func push(_ element:T) {
-        
-        enque.append(element)
-    }
-    
-
-    
-    
 }
-
 
 
 func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
     
-    var rest: [Int] = []
+    //FIFO 
+    var ans: [Int] = []
+    var queue = Queue<Int>(progresses)
     
-    for (i,p) in progresses.enumerated() {
-        rest.append( (100-p-1)/(speeds[i])+1 ) //
-    }
+    var day: Int = 0 
+    var index: Int = 0 
+    let n = speeds.count
+    var endJobCount: Int = 0
     
-    var q = Queue<Int>(rest)
-    
-    var result:[Int] = []
-    var target:Int = q.pop()!
-    
-    var count: Int = 1
-    
-    while !q.isEmpty {
-        
-        let curr = q.pop()!
-        
-        
-        if target >= curr {
-            count += 1 
+    while !queue.isEmpty && index < n {
+
+        if queue.front! + speeds[index] * day >= 100 {
+            
+            let _ = queue.pop()
+            index += 1
+            endJobCount += 1 
+        } else {
+            if endJobCount != 0 {
+                ans.append(endJobCount)
+            }
+            
+            endJobCount = 0
+            day += 1 
         }
         
-        else {
-            result.append(count)
-            target = curr
-            count = 1 
-        }
-        
+    } 
+    
+    if endJobCount != 0 {
+        ans.append(endJobCount)
     }
     
-    result.append(count)
     
-    
-    return result
+    return ans
 }
