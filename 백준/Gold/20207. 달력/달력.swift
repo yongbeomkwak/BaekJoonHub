@@ -1,61 +1,47 @@
-struct Task {
-    var start, end : Int
-    
-    static func <= (lhs: Self, rhs: Self) -> Bool {
-        
-        if lhs.start == rhs.start {
-            return abs(lhs.end - lhs.start) > abs(rhs.end - rhs.start)
-        }
-        
-        return lhs.start < rhs.start
-    }
-    
-}
-
 let n = Int(readLine()!)!
 
-var calendar: [Task] = []
+var calender: [(Int,Int)] = []
 
-
-
-for _ in 0..<n {
-    
+for _ in 0..<n{
     let input = readLine()!.split{$0 == " "}.map{Int($0)!}
-    calendar.append(Task(start: input[0], end: input[1]))
+    calender.append((input[0],input[1]))
 }
 
-calendar.sort(by: <=)
+calender.sort(by: {
+    
+    if $0.0 == $1.0 {
+        return $0.1 <= $1.1
+    }
+    
+    return $0.0 < $1.0
+})
 
 
 var height = [Int](repeating: 0, count: 366)
-for task in calendar {
 
-    for i in task.start...task.end {
+let start = calender[0].0
+
+for (s,e) in calender {
+    
+    for i in s...e {
         height[i] += 1
     }
-    
 }
 
-var answer: Int = 0
-
+var heightMax = 0
 var width = 0
-var maxHeight = 0
-
-for i in 1...365 {
+var ans: Int = 0
+for i in start...365 {
     
-    if height[i] != 0 {
-        width += 1
-        maxHeight = max(height[i],maxHeight)
-    } else {
-        
-        answer += width * maxHeight
-        
+    if height[i] == 0 {
+        ans += width * heightMax
         width = 0
-        maxHeight = 0
+        heightMax = 0
+    } else {
+        heightMax = max(heightMax,height[i])
+        width += 1
     }
+    
 }
 
-print(answer +  width * maxHeight)
-
-
-
+print(ans + width * heightMax)
