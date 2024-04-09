@@ -1,5 +1,3 @@
-import Foundation
-
 struct Time{
     
     let start:Int
@@ -20,41 +18,30 @@ struct Time{
     
 }
 
+
+
+
 let n = Int(readLine()!)!
 
-var a:[Time] = .init()
+var arr: [Time] = []
 
 for _ in 0..<n {
-    
-    let time = readLine()!.split{$0 == " "}.compactMap({Int(String($0))!})
-    
-    a.append(Time(start: time[0], end: time[1]))
-    
+    let input = readLine()!.split{$0 == " "}.map{Int($0)!}
+    arr.append(Time(start: input[0],end: input[1]))
 }
 
-a.sort(by: <) // 끝나는 시간으로 정렬 후
+arr.sort(by: <)
 
-var endTime:Int = 0
+var endTime: Int = 0
+var ans: Int = 0
 
-var ans:Int = 0
-
-for time in a {
+for time in arr {
     
     if endTime <= time.start {
-        ans += 1
         endTime = time.end
+        ans += 1
     }
     
 }
 
 print(ans)
-
-
-
-
-
-
-
-
-
-
