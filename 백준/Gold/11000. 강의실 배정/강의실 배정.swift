@@ -1,171 +1,130 @@
 import Foundation
 
-struct Heap<T> {
-    
-    var nodes:[T] = []
-    
-    let comparer:(T,T) -> Bool
-    
-    var top:T? {
-        return nodes.first
-    }
-    
-    var isEmpty:Bool {
+public struct Heap<T> {
+    // 전체 노드
+    var nodes: [T] = []
+    // 비교 연산자
+    let comparer: (T,T) -> Bool
+
+    var isEmpty: Bool {
         return nodes.isEmpty
     }
-    
-    var count:Int {
-        return nodes.count
-    }
-    
-    init(comparer: @escaping (T,T) -> Bool){
+
+    // 예를 들어, Heap<Int>(comparer: >=) 는 Min Heap
+    init(_ comparer: @escaping (T,T) -> Bool) {
         self.comparer = comparer
     }
-    
-    
-    mutating func push(_ element:T) {
+
+    // top 반환
+    func top() -> T? {
+        return nodes.first
+    }
+
+    // 삽입
+    mutating func push(_ element: T) {
         
+
         nodes.append(element)
-        
-        var index = nodes.count - 1
-        
-        while index > 0 && !comparer(nodes[index],nodes[(index-1) / 2]) {
-            
-            let parent = (index - 1) / 2
-            
+
+        var index = nodes.count - 1 //마지막 원소 가르킴 (현재 들어간 원소)
+
+        while index > 0, !comparer(nodes[index],nodes[(index-1)/2]) { // 부모와 비교 후 정렬 기준에 맞지 않으면 swap
+
+            let parent:Int = (index-1)/2
+
             nodes.swapAt(index, parent)
             index = parent
         }
-        
     }
-    
+
+    // 삭제
     mutating func pop() -> T? {
-        
         guard !nodes.isEmpty else {
             return nil
         }
-        
+
         if nodes.count == 1 {
-            return nodes.popLast()
+            return nodes.removeLast()
         }
-        
-        
-        
-        nodes.swapAt(0, nodes.count-1)
-        
-        let result = nodes.popLast()
-        
-        var index:Int = 0
-        
+
+      
+        nodes.swapAt(0, nodes.count-1) //꺼낼 top을 마지막이랑  swap 후
+        let result = nodes.popLast() // 꺼냄
+
+        var index = 0
+
+        //Heapify
         while index < nodes.count {
-            
             let left = index * 2 + 1
             let right = left + 1
-            
+
             if right < nodes.count {
-                
-                if comparer(nodes[left],nodes[right]) && !comparer(nodes[right],nodes[index]) {
-                    
-                    nodes.swapAt(index, right)
-                    
+                if comparer(nodes[left], nodes[right]),
+                    !comparer(nodes[right], nodes[index]) { //오른쪽과 index가 순서가 안 맞을 때
+                    nodes.swapAt(right, index)
                     index = right
-                    
-                }
-                
-                else if !comparer(nodes[left],nodes[index]) {
-                    
+                } else if !comparer(nodes[left], nodes[index]){ // left와 index가 순서가 안 맞을 때
                     nodes.swapAt(left, index)
                     index = left
-                }
-                
-                else {
+                } else {
                     break
                 }
-            }
-            
-            else if left < nodes.count {
-                
-                if !comparer(nodes[left],nodes[index]) {
+            } else if left < nodes.count {
+                if !comparer(nodes[left], nodes[index]) {
                     nodes.swapAt(left, index)
                     index = left
-                }
-                else {
+                } else {
                     break
                 }
-            }
-            
-            else {
+            } else {
                 break
             }
-                
-            
         }
-        
+
         return result
-        
     }
+}
+
+struct Task {
     
+    let start, end : Int
+    
+    init(_ start: Int,_ end: Int) {
+        self.start = start
+        self.end = end
+    }
     
 }
 
-struct Time{
-    
-    let start:Int
-    let end:Int
-    
-    
-    public static func > (lhs:Self,rhs:Self) -> Bool { // index가 rhs(현재)
-        
-        return lhs.end > rhs.end // 현재 end가 작은게 맞음
-    }
-    
-}
+var heap = Heap<Task>({$0.end >= $1.end })
 
 let n = Int(readLine()!)!
 
-var a:[Time] = .init()
+
+var arr: [Task] = []
 
 for _ in 0..<n {
-    
-    let time = readLine()!.split{$0 == " "}.compactMap({Int(String($0))!})
-    
-    a.append(Time(start: time[0], end: time[1]))
-    
+    let input = readLine()!.split{$0 == " "}.map{Int($0)!}
+    arr.append(Task(input[0],input[1]))
 }
 
-a.sort(by: { $0.start < $1.start }) // 시작 시간 기준 정렬
+arr.sort(by: {$0.start <= $1.start })
 
-var heap = Heap<Time>(comparer:>)
 
-for t in a{
+for t in arr {
     
-    
-    if !heap.isEmpty && heap.top!.end <= t.start {  // 현재 수업 중인 강의의 끝나는 시간이 가장 짧은 시간이 , 다음 강의시간 이전에 끝난다면
-        
-        let p = heap.pop() // 수업 종료
-    
+    if heap.isEmpty {
         heap.push(t)
+        continue
     }
     
-    else { // 수업 중인 강의가 없으면
+    if heap.top()!.end > t.start {
+        heap.push(t)
+    } else {
+        let _ = heap.pop()
         heap.push(t)
     }
     
 }
 
-print(heap.count)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(heap.nodes.count)
