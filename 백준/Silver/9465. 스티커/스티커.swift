@@ -1,32 +1,26 @@
+import Foundation
 
 var tc = Int(readLine()!)!
 
-
-while tc != 0 {
+repeat {
     
     let n = Int(readLine()!)!
+    var dp: [[Int]] = [[Int]](repeating: [Int](repeating: 0, count: n+1), count: 2)
     
-    var board: [[Int]] = []
-    
-    var dp:[[Int]] = [[Int]](repeating: [Int](repeating: 0, count: 2), count: n+2)  // dp[i][0] = 현재 윗 스티커를 땔 때
+    var arr :[[Int]] = []
     
     for _ in 0..<2 {
-        let input = readLine()!.split{$0 == " "}.map({Int($0)!})
-        board.append([0,0]+input)
+        arr.append([0] + readLine()!.split{$0 == " "}.map{Int($0)!})
     }
     
-    for i in 2..<n+2 {
+    for i in 1...n {
         
-        dp[i][0] = max(dp[i-1][1],dp[i-2][1]) + board[0][i]  // 현재 위에서 땔 때,  바로 직전 아래과 두번 째 직전 아래
-        dp[i][1] = max(dp[i-1][0],dp[i-2][0]) + board[1][i] // 현재 아래에서 땔 때 바로 직전 위와 두번 째 직전 위
-        
-    
+        dp[0][i] = max(dp[1][i-1] , ( i > 1 ? max(dp[0][i-2],dp[1][i-2]) : 0)) + arr[0][i]
+        dp[1][i] = max(dp[0][i-1] , ( i > 1 ? max(dp[0][i-2],dp[1][i-2]) : 0)) + arr[1][i]
     }
     
-    print(max(dp[n+1][0],dp[n+1][1])) // 마지막에 2 케이스를 비교
+    print(max(dp[0][n],dp[1][n]))
     
     
-    tc-=1
-}
-
-
+    tc -= 1
+} while tc > 0
