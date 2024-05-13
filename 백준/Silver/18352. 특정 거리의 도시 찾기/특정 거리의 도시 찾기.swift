@@ -1,173 +1,137 @@
-struct Edge{
-    let start:Int
-    let cost:Int
-    
-  
-    public static func <=(lhs:Self,rhs:Self) -> Bool {
-        return rhs.cost <= lhs.cost
-    }
-}
 
+import Foundation
 
-struct Heap<T>{
-    
-    var nodes:[T] = []
-    var comparer:(T,T) -> Bool
-    
-    var isEmpty:Bool {
+//배열 저장 못함 .. 튜플을 이용해야함 Heap<[Int,Int]> (x) -> Heap<(Int,Int)>
+public struct Heap<T> {
+    // 전체 노드
+    var nodes: [T] = []
+    // 비교 연산자
+    let comparer: (T,T) -> Bool
+
+    var isEmpty: Bool {
         return nodes.isEmpty
     }
-    
-    var top:T? {
-        return nodes.first
-    }
-    
-    var count:Int {
-        return nodes.count
-    }
-    
-    init(comparer: @escaping (T,T) -> Bool ){
+
+    // 예를 들어, Heap<Int>(comparer: >=) 는 Min Heap
+    init(_ comparer: @escaping (T,T) -> Bool) {
         self.comparer = comparer
     }
-    
-    
-    mutating func push(_ element:T){
+
+    // top 반환
+    func top() -> T? {
+        return nodes.first
+    }
+
+    // 삽입
+    mutating func push(_ element: T) {
         
+
         nodes.append(element)
-        
-        var index:Int = nodes.count-1
-        
-        
-        while index > 0 && !comparer(nodes[index],nodes[(index-1)/2]) {
-            
-            let parent = (index-1)/2
+
+        var index = nodes.count - 1 //마지막 원소 가르킴 (현재 들어간 원소)
+
+        while index > 0, !comparer(nodes[index],nodes[(index-1)/2]) { // 부모와 비교 후 정렬 기준에 맞지 않으면 swap
+
+            let parent:Int = (index-1)/2
+
             nodes.swapAt(index, parent)
             index = parent
-            
-        
         }
-        
     }
-    
-    mutating func pop() ->T? {
-        
+
+    // 삭제
+    mutating func pop() -> T? {
         guard !nodes.isEmpty else {
             return nil
         }
-        
+
         if nodes.count == 1 {
-            return nodes.popLast()
+            return nodes.removeLast()
         }
-        
-        
-        nodes.swapAt(0, nodes.count - 1)
-        
-        let result = nodes.popLast()
-        
-        var index:Int = 0
-        
-        
+
+      
+        nodes.swapAt(0, nodes.count-1) //꺼낼 top을 마지막이랑  swap 후
+        let result = nodes.popLast() // 꺼냄
+
+        var index = 0
+
+        //Heapify
         while index < nodes.count {
-            
-            let left:Int = index * 2+1
-            let right:Int = left+1
-            
-            
+            let left = index * 2 + 1
+            let right = left + 1
+
             if right < nodes.count {
-                
-                if comparer(nodes[left],nodes[right]) && !comparer(nodes[right],nodes[index]) {
-                    
+                if comparer(nodes[left], nodes[right]),
+                    !comparer(nodes[right], nodes[index]) { //오른쪽과 index가 순서가 안 맞을 때
                     nodes.swapAt(right, index)
                     index = right
-                    
-                }
-                
-                else if !comparer(nodes[left],nodes[index]){
+                } else if !comparer(nodes[left], nodes[index]){ // left와 index가 순서가 안 맞을 때
                     nodes.swapAt(left, index)
                     index = left
-                }
-                
-                else {
+                } else {
                     break
                 }
-                
-            }
-            
-            else if left < nodes.count {
-                if !comparer(nodes[left],nodes[index]){
+            } else if left < nodes.count {
+                if !comparer(nodes[left], nodes[index]) {
                     nodes.swapAt(left, index)
                     index = left
-                }
-                else {
+                } else {
                     break
                 }
-            }
-            else {
+            } else {
                 break
             }
-            
         }
-        
-        
+
         return result
     }
-    
-    
-}
-
-let nmkx = readLine()!.split{$0 == " "}.compactMap{Int(String($0))!}
-
-let n = nmkx[0]
-let m = nmkx[1]
-let k = nmkx[2]
-let x = nmkx[3]
-
-var adj:[[Edge]] = [[Edge]](repeating:[],count:n+1)
-var dist:[Int] = [Int](repeating:Int.max,count: n+1)
-
-var heap = Heap<Edge>(comparer: <=)
-
-for i in 0..<m {
-    let edge = readLine()!.split{$0 == " "}.compactMap{Int(String($0))!}
-    adj[edge[0]].append(Edge(start: edge[1], cost: 1))
 }
 
 
-var ans:[Int] = []
+let input = readLine()!.split{$0 == " "}.map{Int($0)!}
 
+let (n,m,k,x) = (input[0],input[1],input[2],input[3])
 
-heap.push(Edge(start: x, cost: 0))
+var adj: [[Int]] = [[Int]](repeating: [], count: n+1)
+
+var dist: [Int] = [Int](repeating: Int.max , count: n+1)
+
+for _ in 0..<m {
+    let tmp = readLine()!.split{$0 == " "}.map{Int($0)!}
+    
+    let (a,b) = (tmp[0],tmp[1])
+    
+    adj[a].append(b)
+}
+
+var heap = Heap<(Int,Int)>{$0.1 > $1.1}
+
 dist[x] = 0
+heap.push((x,0))
 
 while !heap.isEmpty {
     
-    let top = heap.pop()!
-    
-    if top.cost == k {
-        ans.append(top.start)
-    }
+    let (now,d) = heap.pop()!
     
     
-    for nxt in adj[top.start] {
+    for next in adj[now] {
         
-        if dist[nxt.start] > top.cost + 1 {
-            dist[nxt.start] =  top.cost + 1
-            heap.push(Edge(start: nxt.start, cost: dist[nxt.start]))
+        if dist[next] > dist[now] + 1 {
+            dist[next] = dist[now] + 1
+            heap.push((next,dist[next]))
         }
         
     }
     
-    
 }
 
-if ans.isEmpty{
-    print(-1)
-}
+var result: [String] = []
 
-else {
-    for i in ans.sorted(){
-        print(i)
+for (i,d) in dist.enumerated() {
+    if d == k {
+        result.append("\(i)")
     }
 }
 
+print( result.isEmpty ? -1 :  result.joined(separator: "\n"))
 
