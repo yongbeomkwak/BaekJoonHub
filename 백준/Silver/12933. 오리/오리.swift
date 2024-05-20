@@ -43,7 +43,7 @@ for i in 0..<s.count {
 }
 
 
-if !(visisted.filter({$0 == true}).count == s.count) || s.count % 5 != 0 || result == 0  {
+if !(visisted.filter({$0 == false}).isEmpty) || s.count % 5 != 0 || result == 0  {
     print(-1)
 } else {
     print(result)
