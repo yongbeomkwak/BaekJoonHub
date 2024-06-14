@@ -1,78 +1,152 @@
 import Foundation
 
+struct Heap<T> {
+    
+    var nodes: [T] = []
+    
+    var comparer:(T,T) -> Bool
+    
+    var isEmpty: Bool {
+        return nodes.isEmpty 
+    }
+    
+    var count: Int {
+        return nodes.count 
+    }
+    
+    var first: T? {
+        return nodes.first
+    }
+    
+    init(_ comparer: @escaping (T,T) -> Bool) {
+        self.comparer = comparer
+    }
+    
+    mutating func push(_ element: T) {
+    
+        nodes.append(element)
+        
+        var index = nodes.count-1 
+        var parent = (index-1)/2
+        
+        
+        while index > 0 && !comparer(nodes[index],nodes[parent]) {
+            nodes.swapAt(index,parent)
+            index = parent
+            parent = (index-1)/2
+        }
+        
+    }
+    
+    mutating func pop() -> T? {
+        
+        if nodes.count <= 1 {
+            return nodes.popLast()
+        }
+        
+        nodes.swapAt(0,nodes.count-1)
+        
+        let result = nodes.popLast()
+        
+        var index = 0 
+        
+        
+         while index < nodes.count {
+            let left = index * 2 + 1
+            let right = left + 1
 
-enum Command : String {
-    case insert = "I"
-    case delete = "D"
-}
+            if right < nodes.count {
+                if comparer(nodes[left], nodes[right]),
+                    !comparer(nodes[right], nodes[index]) { //오른쪽과 index가 순서가 안 맞을 때 
+                    nodes.swapAt(right, index)
+                    index = right
+                } else if !comparer(nodes[left], nodes[index]){ // left와 index가 순서가 안 맞을 때 
+                    nodes.swapAt(left, index)
+                    index = left
+                } else {
+                    break
+                }
+            } else if left < nodes.count {
+                if !comparer(nodes[left], nodes[index]) {
+                    nodes.swapAt(left, index)
+                    index = left
+                } else {
+                    break
+                }
+            } else {
+                break
+            }
+        }
 
-struct DoublePriorityQueue {
-    
-    private var _elements:[Int] = []
-    
-    public var elements:[Int] {
-        
-        if _elements.isEmpty {
-            return [0,0]
-        }
-        
-        
-        return [_elements.max()!, _elements.min()!]
+        return result
     }
-    
-    mutating func insert(_ n: Int) {
-        _elements.append(n)
-    }
-    
-    mutating func delete(_ n: Int) {
         
-        if _elements.isEmpty {
-            return 
-        }
-        
-        if n == 1 {
-            
-            if let index = _elements.firstIndex(of: _elements.max()!) {
-                _elements.remove(at: index)
-            }
-            
-        }
-        
-        else {
-            if let index = _elements.firstIndex(of: _elements.min()!) {
-                _elements.remove(at: index)
-            }
-        }
-        
-        
-    }
-    
 }
+    
 
 func solution(_ operations:[String]) -> [Int] {
     
-    var oper_list:[Operation] = []
+    var minHeap = Heap<Int>({$0>$1})
+    var maxHeap = Heap<Int>({$0<$1})
     
-    var dpq = DoublePriorityQueue()
+    var existDict: [Int:Bool] = [:] 
     
-    for oper in operations {
+    func clearNotExistValue(_ heap: inout Heap<Int>) {
+        
+         while !heap.isEmpty && existDict[heap.first!,default:false] == false {
+                    
+                let _ = heap.pop()!
+                  
+         }
+        
+    }
 
-        let splited_input = oper.split{$0 == " "}.map{String($0)}
-
-        let command: Command = Command(rawValue:splited_input[0])!
-        let number = Int(splited_input[1])!
+    operations.forEach { s in 
         
-        if command == .insert {
-            dpq.insert(number)
+        let op = s.split{$0 == " "}.map{String($0)}
+        
+                        
+        let comm = op[0] 
+        let num = Int(op[1])!
+                        
+        if comm == "I" {
+            
+            minHeap.push(num)
+            maxHeap.push(num)
+            existDict[num] = true 
+            
+        } else {
+            
+            if num < 0 {
+                
+                clearNotExistValue(&minHeap)
+                
+                if !minHeap.isEmpty {
+                    existDict[minHeap.pop()!] = false 
+                }
+                
+                
+                
+            } else {
+                
+                  clearNotExistValue(&maxHeap)
+                
+                if !maxHeap.isEmpty {
+                    existDict[maxHeap.pop()!] = false 
+                }
+                
+            }
+            
         }
-        
-        else {
-            dpq.delete(number)
-        }
-        
-       
+                        
+                        
     }
     
+     clearNotExistValue(&minHeap)
+     clearNotExistValue(&maxHeap)
     
-    return dpq.elements
+    var result = [maxHeap.pop() ?? 0, minHeap.pop() ?? 0]
+    
+    
+    return result
 }
