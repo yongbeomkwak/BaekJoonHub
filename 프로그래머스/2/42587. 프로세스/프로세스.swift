@@ -2,27 +2,53 @@ import Foundation
 
 func solution(_ priorities:[Int], _ location:Int) -> Int {
     
-    let count = priorities.count
+    var loc: Int = -1 
     
-    var pri:[(Int,Int)] = priorities.enumerated().map{($0,$1)} // (index,value)
- 
-    var result: Int = 0 
+    var queue: [(Int,Int)] = priorities.map{
+        loc += 1
+        return ($0,loc) 
+    }
+    var sorted_priorities = priorities.sorted(by: >)
     
-    while true {
+    var index: Int = 0
+    var sorted_index: Int = 0
+    
+    var n = queue.count 
+    
+    var pc = 0 
+    
+    while index < n  {
         
-        let front = pri.remove(at:0)
+        let element = queue[index]
         
-        if !pri.filter{$0.1 > front.1}.isEmpty { // 나보다 우선순위가 큰 놈이 존재하면 
-            pri.append(front) // 다시 뒤로 
+        
+        if sorted_priorities[sorted_index] == element.0 {
+            
+            pc += 1 
+            sorted_index += 1
+            
+            
+            // pop 하는 곳 
+            
+            if element.1 == location {
+                break
+            }
+            
+            
+        } else {
+            // push 하는 곳 
+            
+            queue.append(element)
+            n += 1 
         }
-        else if front.0 == location {
-            result = count - pri.count // 전체 계속 - 남은 계속 = 출력 순서
-            break
-        }
+        
+        index += 1
         
         
         
     }
     
-    return result
+    
+    
+    return pc
 }
