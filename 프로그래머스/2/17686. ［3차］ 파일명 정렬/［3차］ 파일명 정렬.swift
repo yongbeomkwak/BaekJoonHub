@@ -1,83 +1,80 @@
-struct File {
+import Foundation
+
+struct File: Comparable {
+    let head: String
+    let number: String
+    let tail: String
     
-    var head = ""
-    var number = ""
-    var tail = ""
-    
-    var raw: String = ""
-    
-    
-    public init(_ head: String, _ number: String, _ tail: String = "") {
-        self.head = head
-        self.number = number
-        self.tail = tail
+    static func < (lhs: Self, rhs: Self) -> Bool {
         
-        raw = head+number+tail
-    }
-    
-    public static func <= (lhs:Self, rhs: Self) -> Bool {
+        let lhead = lhs.head.lowercased()
+        let rhead = rhs.head.lowercased()
         
-        let lHead = lhs.head.uppercased()
-        let rHead = rhs.head.uppercased()
-        
-        let lNumber = Int(lhs.number)!
-        let rNumber = Int(rhs.number)!
-        
-        
-        if lHead < rHead {
-            return true 
-        } else if lHead == rHead {
-        
-            return lNumber < rNumber // stable sort: ==  false 
+        if lhead == rhead {
+          
+            if Int(lhs.number)! < Int(rhs.number)! { // stable sort
+                return true 
+            }
+            
         } 
         
-        return false
+        return lhead < rhead
     }
     
+    func toString() -> String {
+        return head+number+tail
+    }
     
+}
+
+extension String {
+    subscript(_ index: Int) -> String {
+        return String(self[self.index(self.startIndex, offsetBy: index)])
+    }
+}
+
+func convert(file name: String) -> File {
+    var head: [String] = []
+    var number: [String] = []
+    var tail: [String] = []
     
+    var headBeginFlag: Bool = true 
+    var numberBeginFlag: Bool = false
+    var tailBeginFlag = false 
+    
+    for c in name {
+       if c.isNumber {
+           if headBeginFlag {
+               numberBeginFlag = true 
+               headBeginFlag = false 
+           }
+       } else {
+           if numberBeginFlag {
+               numberBeginFlag = false
+               tailBeginFlag = true 
+           }
+       }
+    
+        let s = String(c)
+    
+        
+        if headBeginFlag {
+            head.append(s)
+        } else if numberBeginFlag {
+            number.append(s)
+        } else {
+            tail.append(s)
+        }
+        
+    }
+    
+     return File(head: head.joined(), number: number.joined(), tail: tail.joined())
 }
 
 func solution(_ files:[String]) -> [String] {
     
-    
-    var convertedFiles: [File] = []
-    
-    for file in files {
-        var i = 0 // 0: haed , 1: number : 2 tail 
-        
-        var head: String = ""
-        var number: String = ""
-        var tail: String = ""
-        
-        for c in file {
-            
-            if i == 0 && c.isNumber { // 현재 head인데 지금 문자가 숫자면 number로 스위칭
-                i += 1
-            }
-            
-            if i == 1 && !c.isNumber { // 현재 number인데 지금 문자가 숫자가 아니면 tail로 스위칭 
-                i += 1 
-            }
-            
-            switch i {
-                case 0 :
-                    head.append(String(c))
-                
-                case 1 :
-                    number.append(String(c))
-                
-                default :
-                    tail.append(String(c))
-            }
-            
-        }
-
-        
-        convertedFiles.append(File(head,number,tail))
-    }
+    let fileList: [File] = files.map( {convert(file: $0)}).sorted(by: <)
     
     
-    
-    return convertedFiles.sorted(by:<=).map{$0.raw}
+    return fileList.map{$0.toString()}
 }
