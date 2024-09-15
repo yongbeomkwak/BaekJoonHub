@@ -1,40 +1,46 @@
+import Foundation
+
+extension String {
+    subscript(_ index: Int) -> String {
+        return String(self[self.index(self.startIndex, offsetBy: index)])
+    }
+}
+
+
 func solution(_ msg:String) -> [Int] {
+
+    var answer: [Int] = []
+    var dict: [String: Int] = [:] 
+    var a: Character = "A"
+    var index: Int = 1
+    let length = msg.count
     
-    var dict: [String:Int] = [:]
-    
-    // "A" ~ "Z"
+    // A ~ Z 색인번호 삽입 
     for i in 0...25 {
-        dict[String(Character(UnicodeScalar(65+i)!))] = i+1
+        let letter = String(Character(UnicodeScalar(65+i)!))
+        dict[letter] = i+1
     }
     
-    var arr = Array(msg).map{String($0)}
-
+    var w = ""
     
-    var now: String = arr[0]
-
-    
-    var ans: [Int] = []
-    
-    
-    for i in 1..<arr.count {
-
-        if dict[now,default:0] != 0 { // 현재 값 존재 
-            if dict[now+arr[i],default:0] == 0 { // 다음 글자와 조합한 것이 존재하지 않을 때 
-                ans.append(dict[now]!) // 현재 값 출력 
-                dict[now+arr[i]] = dict.count+1 // 다음 번호 부여 
-                now = arr[i] // 현재 글자이동 
-            } else { // 다음 글자와 조합한 것이 존재할 때 
-                now += arr[i]
-            }
+    for index in 0..<length {
+        
+        let c = msg[index] // 다음 문자열 
+        
+        let wc = w + c 
+        
+        if dict[wc] != nil { // 존재하면 w를 wc로 갱신 
+            w = wc 
+        } else { // 존재하지 않으면 
+            answer.append(dict[w]!) // 현재 입력의 색인 출력 
+            w = c // 다음 글자로 갱신 
+            dict[wc] = dict.count+1 // w+c 사전추가
+            
         }
         
-        
     }
+
+    answer.append(dict[w]!) // 마지막 현재 값 추가 
     
-    if !now.isEmpty { // 마지막 글자 출력
-        ans.append(dict[now,default:0])
-    }
-    
-    
-    return ans
+    return answer
 }
