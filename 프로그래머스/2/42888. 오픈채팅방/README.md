@@ -1,10 +1,10 @@
 # [level 2] 오픈채팅방 - 42888 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42888) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42888?language=swift) 
 
 ### 성능 요약
 
-메모리: 51.5 MB, 시간: 440.19 ms
+메모리: 54.4 MB, 시간: 819.08 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 12월 3일 21:2:57
+2024년 09월 16일 12:25:21
 
 ### 문제 설명
 

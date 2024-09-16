@@ -1,57 +1,38 @@
 import Foundation
 
-enum Command : String {
-    
-    case e = "Enter"
-    case c = "Change"
-    case l = "Leave"
-    
-    
-    var result : String {
-        
-        switch self {
-            case .e:
-                return "님이 들어왔습니다."
-            
-            default:
-                return "님이 나갔습니다."
-        }
-        
-    }
-    
+struct Info {
+    let id: String 
+    let command: String
 }
 
 func solution(_ record:[String]) -> [String] {
     
-    var dict: [String:String] = [:]
-    
-    var ans: [(String,Command)] = []
-   
-    for r in record {
-        let info = r.split{$0 == " "}.map{String($0)}
-        
-        let command: Command = Command(rawValue:info[0])!
-        let uid = info[1]
+    var recordDict: [String: String] = [:]
 
+    var infoList: [Info] = []
+    
+    func write(info: String) {
         
-        switch command {
+        let component = info.components(separatedBy: " ")
+        let command = component[0]
+        let id = component[1]
+       
+        if command == "Enter" || command == "Change"  {
+             let nickName = component[2]
+            recordDict[id] = nickName
             
-            case .e:
-                let name = info[2]
-                dict[uid] = name
-                ans.append((uid,command))
-            case .c:
-                let name = info[2]
-                dict[uid] = name 
+            if command == "Enter" {
+                 infoList.append(Info(id: id, command: "님이 들어왔습니다."))
+            }
             
-            case .l:
-                ans.append((uid,command))
-        }
-        
+        } else {
+             infoList.append(Info(id: id, command: "님이 나갔습니다."))
+        } 
     }
     
-    return ans.map{ (uid,cmd) -> String in 
-        
-        return dict[uid]!+cmd.result
+    record.forEach { info in
+          write(info: info)
     }
+       
+    return infoList.map({ recordDict[$0.id]! + $0.command  })
 }
