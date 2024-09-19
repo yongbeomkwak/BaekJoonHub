@@ -1,62 +1,67 @@
 import Foundation
 
+var apichResult: [Int] = []
+var lionResult: [Int] = [Int](repeating:0, count:11)
+var ans: [Int] = [-1]
+var maxGap: Int = 0 
+var duplicatedCheck: Set<[Int]> = .init()
+
+func calcScore() {
+    var lionScore = 0
+    var apichScore = 0
+    
+    for i in 0..<11 {
+        
+        if apichResult[i] == 0 && lionResult[i] == 0 {
+            continue
+        }
+        
+        if apichResult[i] >= lionResult[i] {
+            apichScore += i
+        } else {
+            lionScore += i
+        }
+        
+    }
+    
+        
+    if lionScore > apichScore && lionScore - apichScore >= maxGap  { 
+        // 라이언이 이기고
+        // 차이가 같다면 낮은 점수를 많이 맞춘 것이 우선이므로 >= 로 계속 업데이트 
+        maxGap = lionScore - apichScore
+        ans = lionResult
+    }
+    
+}
+
+func combination(_ index: Int, _ remainArrow: Int) {
+    if remainArrow == 0 {
+        if duplicatedCheck.contains(lionResult) { return }
+        duplicatedCheck.insert(lionResult)
+        calcScore()
+        return
+    }
+    
+    if index >= 11 {
+        return
+    }
+    
+    for next in index+1..<12 {
+        for arrow in 0...remainArrow {
+            lionResult[index] = arrow
+            combination(next, remainArrow - arrow)
+            lionResult[index] = 0
+        }
+    }
+    
+}
 
 
 func solution(_ n:Int, _ info:[Int]) -> [Int] {
     
-    var canWinLion = false
-    var arr = [Int](repeating:0,count:11)
-    var maxGap = -1
-    var result: [Int] = []
-    
-    func dfs(_ depth: Int,_ start: Int) {
-    
-        if depth == n {
-            
-            var lion_score = 0
-            var apch_score = 0 
-            
-            for i in 0...10 {
-                
-                if arr[i] == 0 && info[i] == 0 { // 아무도 못쏘면
-                    continue
-                }
-                
-                if arr[i] > info[i] {
-                    lion_score += 10-i
-                } else {
-                    apch_score += 10-i
-                }
-                
-            }
-            
-            let gap = lion_score - apch_score
-            
-            if lion_score > apch_score , maxGap < gap { // 라이언이 이기고 점수차가 최대면  갱신 
-                canWinLion = true 
-                maxGap = gap 
-                result = arr 
-            }
-            
-            return 
-        }
-        
-        for i in start..<11 {
-            arr[10-i] += 1 
-            dfs(depth+1,i)
-            arr[10-i] -= 1
-        }
-        
-    }
-    
-    dfs(0,0)
-    
-    if canWinLion == false {
-        return [-1]
-    }
+    apichResult = info.reversed()
+    combination(0,n)
     
     
-    
-    
-    return result
+    return ans.reversed()
 }
