@@ -1,79 +1,59 @@
 import Foundation
 
-struct Queue<T> {
-    
-    var enque:[T]
-    var deque:[T] = []
-    
-    public init(_ enque:[T]) {
-        self.enque = enque
-    }
-    
-    var first: T? {
-        
-        if deque.isEmpty {
-            return enque.first
-        }
-        
-        return deque.last
-        
-    }
-    
-    mutating func push(_ element:T) {
-        enque.append(element)
-    }
-    
-    mutating func pop() -> T? {
-        
-        if deque.isEmpty {
-            deque = enque.reversed()
-            enque.removeAll()
-        }
-        
-        return deque.removeLast()
-        
-    }
-    
-}
+var queue1: [Int] = []
+var queue2: [Int] = []
 
+func solution(_ queue1:[Int], _ queue2:[Int]) -> Int {
+    
+    var ans: Int = -1 
+    var count: Int = 0
+    let length = queue1.count
+    
+    var startQueueState: [Int] = queue1  
 
+    var queue1 = queue1
+    var queue2 = queue2 
+    
+    var sum1 = queue1.reduce(0,+)
+    var sum2 = queue2.reduce(0,+)
+    
+    var q1Left: Int = 0
+    var q2Left: Int = 0
+    var q1Right: Int = queue1.count
+    var q2Right: Int = queue2.count
 
-func solution(_ queue1:[Int], _ queue2:[Int]) -> Int{
-    
-    let limit = queue1.count * 3 
-    var ans:Int = 0
-    
-    var q1 = queue1.reduce(0,+)
-    var q2 = queue2.reduce(0,+)
-    
-    if (q1+q2) % 2 != 0 {
-        return -1 
+    if sum1 == sum2 {
+        return 0
     }
-
-    var queue1 = Queue(queue1)
-    var queue2 = Queue(queue2)
     
-    while (ans < limit) {
-        
-        if q1 ==  q2 {
+    repeat {
+    
+        if sum1 > sum2 {
+            let poppedNumber = queue1[q1Left]
+            q1Left += 1
+            queue2.append(poppedNumber)
+            sum2 += poppedNumber
+            sum1 -= poppedNumber
+            q2Right += 1
+            count += 1
             
-            return ans
+        } else if sum1 < sum2 {
+            let poppedNumber = queue2[q2Left]
+            q2Left += 1
+            queue1.append(poppedNumber)
+            sum1 += poppedNumber
+            sum2 -= poppedNumber
+            q1Right += 1
+            count += 1
             
-        } else if q1 > q2  {
-            let pop = queue1.pop()!
-            q1 -= pop
-            q2 += pop
-            queue2.push(pop)
         } else {
-            let pop = queue2.pop()!
-            q2 -= pop
-            q1 += pop
-            queue1.push(pop)
+            ans = count
+            break 
         }
         
-        ans += 1   
-    }
+    } while count < length * 3  && q1Left < q1Right && q2Left < q2Right
     
+
     
-    return -1
+    return ans
 }
