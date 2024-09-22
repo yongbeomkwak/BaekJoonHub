@@ -1,57 +1,27 @@
 import Foundation
 
-extension Array where Element == Int {
-
-    mutating func removeZero() {
-        
-        while self.last ?? -1 == 0 {
-            self.removeLast()
-        }  
-        
-    }
-}
-
 func solution(_ cap:Int, _ n:Int, _ deliveries:[Int], _ pickups:[Int]) -> Int64 {
+
+    var del: Int = 0
+    var pic: Int = 0
     
-    var del = deliveries
-    var pic = pickups 
+    var dist: Int = 0 
     
-    
-    del.removeZero()
-    pic.removeZero()
-    
-    var ans: Int = 0 
-    
-    while !del.isEmpty || !pic.isEmpty {
+    for index in stride(from:n-1, through:0, by: -1) {
         
-        var nowCap = cap
-        ans += max(del.count,pic.count)*2 // 현재 순회에서 갈 가장 먼 집 왕복
+        del += deliveries[index] 
+        pic += pickups[index] 
         
-        while !del.isEmpty {
+        while del > 0 || pic > 0 { // 들고있는게 있다면 (배달 or 수거 해야할것)
+            dist += (index+1) * 2 // 왕복 거리 
+            // 한번 왕복마다 cap 만큼 뺀다.
+            del -= cap 
+            pic -= cap 
             
-            if del.last ?? 0 > nowCap {
-                del[del.count-1] -= nowCap  
-                break 
-            }
-            else {
-                nowCap -= del.removeLast()
-            }
+            // 음수가 되도 되는 이유는 다음 왕복 때 추가가되었는데 그게 0 이하면 이전 왕복 때 했다고 생각할 수 있다.
         }
-        
-        nowCap = cap 
-        while !pic.isEmpty {
-            
-            if pic.last ?? 0 > nowCap {
-                pic[pic.count-1] -= nowCap 
-                break 
-            }
-            else {
-                nowCap -= pic.removeLast()
-            }
-        }
-        
         
     }
     
-    return Int64(ans)
+    return Int64(dist)
 }
