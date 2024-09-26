@@ -70,7 +70,7 @@ func solution(_ n:Int, _ m:Int, _ x:Int, _ y:Int, _ r:Int, _ c:Int, _ k:Int) -> 
             let nextX = nowX + dx
             let nextY = nowY + dy
         
-            if  !(1...n ~= nextX) || !(1...m ~= nextY) || !ans.isEmpty {
+            if  !(1...n ~= nextX) || !(1...m ~= nextY) || !ans.isEmpty { 
                 continue
             }
             
