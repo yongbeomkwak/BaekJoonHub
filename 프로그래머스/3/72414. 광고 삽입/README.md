@@ -1,10 +1,10 @@
 # [level 3] 광고 삽입 - 72414 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/72414) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/72414?language=swift) 
 
 ### 성능 요약
 
-메모리: 16.3 MB, 시간: 14.75 ms
+메모리: 80.9 MB, 시간: 5449.04 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 12월 5일 19:6:40
+2024년 09월 28일 19:46:27
 
 ### 문제 설명
 
