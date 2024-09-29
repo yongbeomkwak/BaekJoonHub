@@ -1,6 +1,6 @@
 import Foundation
 
-var answer: [Int] = []
+var answer = -1
 
 
 
@@ -12,7 +12,7 @@ func solution(_ info:[Int], _ edges:[[Int]]) -> Int {
     func dfs(_ sheeps: Int,_ wolves: Int) {
         
         if sheeps > wolves {
-            answer.append(sheeps)
+           answer = max(answer, sheeps)
         }  else {
             return 
         }
@@ -40,5 +40,5 @@ func solution(_ info:[Int], _ edges:[[Int]]) -> Int {
     visited[0] = true 
     dfs(1,0)
     
-    return answer.max()!
+    return answer
 }
