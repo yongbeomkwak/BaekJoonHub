@@ -1,31 +1,32 @@
 import Foundation
 
 func solution(_ sticker:[Int]) -> Int{
-    var ans = 0
     
     let n = sticker.count
-
-    if n <= 2 {
+    
+    if n == 1 {
+        return sticker[0]
+    } else if n == 2 {
         return sticker.max()!
     }
     
-    var dp1: [Int] = [Int](repeating:0,count:n) // 첫번 째 스티커를 땔 때 ,
-    var dp2: [Int] = [Int](repeating:0,count:n)
-
-    dp1[0] = sticker[0] // dp1 은 첫번 째 스티커를 선택했으니  마지막 선택 불가
-    dp1[1] = sticker[0]
+    var dp: [Int] = [Int](repeating:0, count:n) // 첫번째꺼 땠을 때
+    dp[0] = sticker[0]
+    dp[1] = dp[0]
     
-    dp2[1] = sticker[1] // dp2는 두번째 스티커 부터 시작 
     
-    for i in 2..<n{
-        
-        dp2[i] = max(dp2[i-2]+sticker[i],dp2[i-1])
-        
-        if i  < n-1 { // dp1은 마지막 스티커 못씀 
-             dp1[i] = max(dp1[i-2]+sticker[i],dp1[i-1]) // 전전꺼 + 현재, 이전꺼 
-        }
+    for i in 2..<n-1 {
+        dp[i] = max(dp[i-2] + sticker[i],dp[i-1]) // i-2까지 최대값 + 현재스티커 또는 i-1 최대값
     }
     
+    var dp2 = [Int](repeating:0, count:n) // 첫번째꺼 땠을 때
     
-    return max(dp1.max()!,dp2.max()!)
+    dp2[1] = sticker[1]
+    
+    for i in 2..<n {
+        dp2[i] = max(dp2[i-2] + sticker[i], dp2[i-1]) // i-2까지 최대값 + 현재스티커 또는 i-1 최대값
+    }
+    
+
+    return max(dp.max()!,dp2.max()!)
 }
