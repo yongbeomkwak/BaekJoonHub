@@ -1,26 +1,24 @@
-let s1 = Array(readLine()!)
-let s2 = Array(readLine()!)
+import Foundation
 
-let n = s1.count
-let m = s2.count
+var s1 = Array(readLine()!)
+var s2 = Array(readLine()!)
 
-var dp = [[Int]](repeating: [Int](repeating: 0, count: m+1), count: n+1)
+let len = max(s1.count, s2.count)
+
+var dp: [[Int]] = [[Int]](repeating: [Int](repeating: 0, count: len+1), count: len+1)
 
 var ans: Int = 0
 
-for i in 1...n {
-    for j in 1...m {
+for i in 1...s1.count {
+    for j in 1...s2.count {
         
         if s1[i-1] == s2[j-1] {
-            dp[i][j] = dp[i-1][j-1]+1
+            dp[i][j] = dp[i-1][j-1] + 1
+        } else {
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1])
         }
         
-        else {
-            dp[i][j] = max(dp[i-1][j],dp[i][j-1])
-        }
-        
-        ans = max(ans,dp[i][j])
-        
+        ans = max(ans, dp[i][j])
     }
 }
 
